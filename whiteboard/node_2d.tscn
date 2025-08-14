@@ -6,3 +6,38 @@
 script = ExtResource("1_wtcfe")
 
 [node name="Line2D" type="Line2D" parent="."]
+
+[node name="BlackColor" type="Button" parent="."]
+offset_left = -6.0
+offset_right = 63.0
+offset_bottom = 23.0
+
+[node name="WhiteColor" type="Button" parent="."]
+offset_left = 77.0
+offset_top = 1.0
+offset_right = 147.0
+offset_bottom = 24.0
+
+[node name="BlueColor" type="Button" parent="."]
+offset_left = 160.0
+offset_top = 1.0
+offset_right = 230.0
+offset_bottom = 24.0
+
+[node name="GreenColor" type="Button" parent="."]
+offset_left = 247.0
+offset_top = 1.0
+offset_right = 317.0
+offset_bottom = 24.0
+
+[node name="RedColor" type="Button" parent="."]
+offset_left = 334.0
+offset_top = 2.0
+offset_right = 404.0
+offset_bottom = 25.0
+
+[connection signal="pressed" from="BlackColor" to="." method="_on_black_color_pressed"]
+[connection signal="pressed" from="WhiteColor" to="." method="_on_white_color_pressed"]
+[connection signal="pressed" from="BlueColor" to="." method="_on_blue_color_pressed"]
+[connection signal="pressed" from="GreenColor" to="." method="_on_green_color_pressed"]
+[connection signal="pressed" from="RedColor" to="." method="_on_red_color_pressed"]
