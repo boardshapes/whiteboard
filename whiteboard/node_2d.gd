@@ -35,6 +35,10 @@ func _on_red_color_pressed() -> void:
 	color = Color.RED
 	erasing = false
 
+func _on_clear_pressed():
+	strokes = []
+	queue_redraw()
+
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
 

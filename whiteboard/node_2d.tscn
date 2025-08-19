@@ -71,6 +71,13 @@ offset_bottom = 129.0
 scale = Vector2(0.6, 0.2)
 texture_normal = ExtResource("3_0hol4")
 
+[node name="Clear" type="Button" parent="."]
+offset_left = 1084.0
+offset_top = 5.0
+offset_right = 1141.0
+offset_bottom = 36.0
+text = "CLEAR"
+
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]
 [connection signal="value_changed" from="BrushSize" to="." method="_on_brush_size_value_changed"]
@@ -80,3 +87,4 @@ texture_normal = ExtResource("3_0hol4")
 [connection signal="pressed" from="BlueColor2" to="." method="_on_blue_color_pressed"]
 [connection signal="pressed" from="GreenColor2" to="." method="_on_green_color_pressed"]
 [connection signal="pressed" from="RedColor2" to="." method="_on_red_color_pressed"]
+[connection signal="pressed" from="Clear" to="." method="_on_clear_pressed"]
