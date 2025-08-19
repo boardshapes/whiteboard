@@ -6,6 +6,7 @@ var strokes: Array = []
 var has_last_pos: bool = false
 var last_pos: Vector2
 var drawable: bool = true
+var erasing: bool = false
 
 func _on_control_mouse_entered() -> void:
 	drawable = true
@@ -13,28 +14,29 @@ func _on_control_mouse_entered() -> void:
 func _on_control_mouse_exited() -> void:
 	drawable = false
 
-
 func _on_black_color_pressed() -> void:
 	color = Color.BLACK
+	erasing = false
 
 func _on_white_color_pressed() -> void:
-	color = Color.WHITE
+	erasing = true
+	drawable = false
+	color = Color(0,0,0,0)
 
 func _on_blue_color_pressed() -> void:
 	color = Color.BLUE
+	erasing = false
 
 func _on_green_color_pressed() -> void:
 	color = Color.GREEN
+	erasing = false
 
 func _on_red_color_pressed() -> void:
 	color = Color.RED
+	erasing = false
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
-
-func _on_button_mouse_entered() -> void:
-	#if InputEventMouseButton:
-		color = Color(0,0,0,0)
 
 func _input(event: InputEvent) -> void:
 	if drawable:
@@ -43,12 +45,19 @@ func _input(event: InputEvent) -> void:
 				if event.pressed:
 					last_pos = event.position
 					has_last_pos = true
-					strokes.append({"pos": last_pos, "size": brush_size, "color": color})
-					queue_redraw()
+					if not erasing:
+						strokes.append({"pos": last_pos, "size": brush_size, "color": color})
+						queue_redraw()
 				else:
 					has_last_pos = false
 
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			if erasing:
+				strokes = strokes.filter(func(s):
+					return s.pos.distance_to(event.position) > brush_size
+				)
+				queue_redraw()
+				return
 			if has_last_pos:
 				var distance = last_pos.distance_to(event.position)
 				var steps = int(distance / 2) 
@@ -62,5 +71,6 @@ func _input(event: InputEvent) -> void:
 			queue_redraw()
 
 func _draw() -> void:
+	if drawable:
 		for stroke in strokes:
 			draw_circle(stroke.pos, stroke.size, stroke.color)
