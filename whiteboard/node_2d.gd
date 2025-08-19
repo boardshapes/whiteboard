@@ -7,6 +7,7 @@ var has_last_pos: bool = false
 var last_pos: Vector2
 var drawable: bool = true
 var erasing: bool = false
+var mouse_pos: Vector2
 
 func _on_control_mouse_entered() -> void:
 	drawable = true
@@ -20,8 +21,7 @@ func _on_black_color_pressed() -> void:
 
 func _on_white_color_pressed() -> void:
 	erasing = true
-	drawable = false
-	color = Color(0,0,0,0)
+	color = Color.WHITE
 
 func _on_blue_color_pressed() -> void:
 	color = Color.BLUE
@@ -35,12 +35,16 @@ func _on_red_color_pressed() -> void:
 	color = Color.RED
 	erasing = false
 
-func _on_clear_pressed():
+func _on_clear_pressed() -> void:
 	strokes = []
 	queue_redraw()
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
+
+func _process(delta: float) -> void:
+	mouse_pos = get_global_mouse_position()
+	queue_redraw()
 
 func _input(event: InputEvent) -> void:
 	if drawable:
@@ -64,7 +68,7 @@ func _input(event: InputEvent) -> void:
 				return
 			if has_last_pos:
 				var distance = last_pos.distance_to(event.position)
-				var steps = int(distance / 2) 
+				var steps = int(distance / 2)
 				for i in range(steps):
 					var t = float(i) / steps
 					var interp_pos = last_pos.lerp(event.position, t)
@@ -75,6 +79,8 @@ func _input(event: InputEvent) -> void:
 			queue_redraw()
 
 func _draw() -> void:
+	for stroke in strokes:
+		draw_circle(stroke.pos, stroke.size, stroke.color)
+
 	if drawable:
-		for stroke in strokes:
-			draw_circle(stroke.pos, stroke.size, stroke.color)
+		draw_circle(mouse_pos, brush_size, color, false, 2.0)
