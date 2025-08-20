@@ -1,13 +1,14 @@
 extends Node2D
 
 var color: Color = Color.BLACK
-var brush_size: float = 5.0
+var brush_size: float = 50.0
 var strokes: Array = []
 var has_last_pos: bool = false
 var last_pos: Vector2
 var drawable: bool = true
 var erasing: bool = false
 var mouse_pos: Vector2
+var texture : Texture2D = load("res://circle.png")
 
 func _on_control_mouse_entered() -> void:
 	drawable = true
@@ -44,21 +45,19 @@ func _on_brush_size_value_changed(value: float) -> void:
 
 func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
-	queue_redraw()
 
 func _input(event: InputEvent) -> void:
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				if event.pressed:
-					last_pos = event.position
 					has_last_pos = true
+					last_pos = event.position
 					if not erasing:
 						strokes.append({"pos": last_pos, "size": brush_size, "color": color})
 						queue_redraw()
 				else:
 					has_last_pos = false
-
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			if erasing:
 				strokes = strokes.filter(func(s):
@@ -76,11 +75,13 @@ func _input(event: InputEvent) -> void:
 			strokes.append({"pos": event.position, "size": brush_size, "color": color})
 			last_pos = event.position
 			has_last_pos = true
-			queue_redraw()
+			queue_redraw() 
 
 func _draw() -> void:
 	for stroke in strokes:
-		draw_circle(stroke.pos, stroke.size, stroke.color)
+		var size = Vector2(stroke.size, stroke.size)  
+		var rect = Rect2(stroke.pos - size/2, size)  
+		draw_texture_rect(texture, rect, false, stroke.color)
 
 	if drawable:
 		draw_circle(mouse_pos, brush_size, color, false, 2.0)

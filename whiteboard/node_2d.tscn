@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cagnq7h1kytei"]
+[gd_scene load_steps=6 format=3 uid="uid://cagnq7h1kytei"]
 
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://node_2d.gd" id="1_wtcfe"]
 [ext_resource type="Texture2D" uid="uid://bin2oqrw77u1y" path="res://icon.svg" id="3_0hol4"]
+[ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="3_epypp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -26,9 +27,8 @@ offset_left = 441.0
 offset_top = -8.0
 offset_right = 640.0
 offset_bottom = 50.0
-min_value = 1.0
-max_value = 20.0
-value = 5.0
+min_value = 10.0
+value = 50.0
 
 [node name="BlackColor" type="TextureButton" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -77,6 +77,11 @@ offset_top = 5.0
 offset_right = 1141.0
 offset_bottom = 36.0
 text = "CLEAR"
+
+[node name="Circle" type="Sprite2D" parent="."]
+scale = Vector2(0.002, 0.002)
+texture = ExtResource("3_epypp")
+centered = false
 
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]
