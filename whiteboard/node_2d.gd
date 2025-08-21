@@ -61,7 +61,7 @@ func _input(event: InputEvent) -> void:
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			if erasing:
 				strokes = strokes.filter(func(s):
-					return s.pos.distance_to(event.position) > brush_size
+					return s.pos.distance_to(event.position) > brush_size/4
 				)
 				queue_redraw()
 				return
@@ -84,4 +84,6 @@ func _draw() -> void:
 		draw_texture_rect(texture, rect, false, stroke.color)
 
 	if drawable:
-		draw_circle(mouse_pos, brush_size, color, false, 2.0)
+		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
+	if erasing:
+		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
