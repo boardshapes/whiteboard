@@ -83,10 +83,8 @@ func _draw() -> void:
 	for i in range(len(strokes)-1):
 		var curr = strokes[i]
 		var next = strokes[i] if curr.end else strokes[i+1]
-		
-		var distance = curr.pos.distance_to(next.pos)
-		draw_line(curr.pos,next.pos,curr.color,(curr.size)/20*distance)
-		draw_circle(curr.pos,(curr.size/2)/20*distance,curr.color)
+		draw_line(curr.pos,next.pos,curr.color,curr.size)
+		draw_circle(curr.pos,curr.size/2,curr.color)
 		
 	if strokes.size() > 0:
 		draw_circle(strokes[-1].pos,strokes[-1].size/2,strokes[-1].color)
