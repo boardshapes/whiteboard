@@ -1,2 +1,2 @@
 # whiteboard
-its like microsoft paint
+Level CReator and Editor for Boardwalk
