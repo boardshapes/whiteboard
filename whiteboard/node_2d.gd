@@ -54,9 +54,10 @@ func _input(event: InputEvent) -> void:
 					has_last_pos = true
 					last_pos = event.position
 					if not erasing:
-						strokes.append({"pos": last_pos, "size": brush_size, "color": color})
+						strokes.append({"pos": last_pos, "size": brush_size, "color": color,"end":false})
 						queue_redraw()
 				else:
+					strokes.append({"pos": last_pos, "size": brush_size, "color": color,"end":true})
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			if erasing:
@@ -65,23 +66,35 @@ func _input(event: InputEvent) -> void:
 				)
 				queue_redraw()
 				return
-			if has_last_pos:
-				var distance = last_pos.distance_to(event.position)
-				var steps = int(distance / 2)
-				for i in range(steps):
-					var t = float(i) / steps
-					var interp_pos = last_pos.lerp(event.position, t)
-					strokes.append({"pos": interp_pos, "size": brush_size, "color": color})
-			strokes.append({"pos": event.position, "size": brush_size, "color": color})
+			#if has_last_pos:
+				#var distance = last_pos.distance_to(event.position)
+				#var steps = int(distance / 2)
+				#for i in range(steps):
+					#var t = float(i) / steps
+					#var interp_pos = last_pos.lerp(event.position, t)
+					#strokes.append({"pos": interp_pos, "size": brush_size, "color": color})
+			strokes.append({"pos": event.position, "size": brush_size, "color": color,"end":false})
 			last_pos = event.position
 			has_last_pos = true
 			queue_redraw() 
 
 func _draw() -> void:
-	for stroke in strokes:
-		var size = Vector2(stroke.size, stroke.size)  
-		var rect = Rect2(stroke.pos - size/2, size)  
-		draw_texture_rect(texture, rect, false, stroke.color)
+	print(len(strokes))
+	for i in range(len(strokes)-1):
+		var curr = strokes[i]
+		var next = strokes[i] if curr.end else strokes[i+1]
+		draw_line(curr.pos,next.pos,curr.color,curr.size)
+		draw_circle(curr.pos,curr.size/2,curr.color)
+		
+	if strokes.size() > 0:
+		draw_circle(strokes[-1].pos,strokes[-1].size/2,strokes[-1].color)
+		
+	
+		
+	#for stroke in strokes:
+		#var size = Vector2(stroke.size, stroke.size)  
+		#var rect = Rect2(stroke.pos - size/2, size)  
+		#draw_texture_rect(texture, rect, false, stroke.color)
 
 	if drawable:
 		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
