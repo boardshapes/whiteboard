@@ -22,7 +22,7 @@ func _on_black_color_pressed() -> void:
 
 func _on_white_color_pressed() -> void:
 	erasing = true
-	color = Color.WHITE
+
 
 func _on_blue_color_pressed() -> void:
 	color = Color.BLUE
@@ -83,8 +83,10 @@ func _draw() -> void:
 	for i in range(len(strokes)-1):
 		var curr = strokes[i]
 		var next = strokes[i] if curr.end else strokes[i+1]
-		draw_line(curr.pos,next.pos,curr.color,curr.size)
-		draw_circle(curr.pos,curr.size/2,curr.color)
+		
+		var distance = curr.pos.distance_to(next.pos)
+		draw_line(curr.pos,next.pos,curr.color,(curr.size)/20*distance)
+		draw_circle(curr.pos,(curr.size/2)/20*distance,curr.color)
 		
 	if strokes.size() > 0:
 		draw_circle(strokes[-1].pos,strokes[-1].size/2,strokes[-1].color)
