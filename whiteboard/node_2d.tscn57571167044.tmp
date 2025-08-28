@@ -83,13 +83,6 @@ scale = Vector2(0.002, 0.002)
 texture = ExtResource("3_epypp")
 centered = false
 
-[node name="RectButton" type="Button" parent="."]
-offset_left = 737.0
-offset_top = 10.0
-offset_right = 794.0
-offset_bottom = 41.0
-text = "Rectangle"
-
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]
 [connection signal="value_changed" from="BrushSize" to="." method="_on_brush_size_value_changed"]
@@ -100,4 +93,3 @@ text = "Rectangle"
 [connection signal="pressed" from="GreenColor2" to="." method="_on_green_color_pressed"]
 [connection signal="pressed" from="RedColor2" to="." method="_on_red_color_pressed"]
 [connection signal="pressed" from="Clear" to="." method="_on_clear_pressed"]
-[connection signal="pressed" from="RectButton" to="." method="_on_rectangle_pressed"]
