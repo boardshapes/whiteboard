@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cagnq7h1kytei"]
+[gd_scene load_steps=10 format=3 uid="uid://cagnq7h1kytei"]
 
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://node_2d.gd" id="1_wtcfe"]
-[ext_resource type="Texture2D" uid="uid://bin2oqrw77u1y" path="res://icon.svg" id="3_0hol4"]
+[ext_resource type="Texture2D" uid="uid://u0thwnjhho86" path="res://blackmarker.png" id="2_d21ai"]
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="3_epypp"]
+[ext_resource type="Texture2D" uid="uid://bgjxdhsjo47q5" path="res://eraser.png" id="3_rj586"]
+[ext_resource type="Texture2D" uid="uid://d00luvcekjq2f" path="res://bluemarker.png" id="4_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://crr0fsck54hrd" path="res://greenmarker.png" id="5_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://c6pk3l4i25bnd" path="res://redmarker.png" id="6_hqns4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -18,64 +22,63 @@ script = ExtResource("1_wtcfe")
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_top = 50.0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1919.0
+offset_bottom = 898.0
 
 [node name="BrushSize" type="HSlider" parent="."]
-offset_left = 441.0
-offset_top = -8.0
-offset_right = 640.0
-offset_bottom = 50.0
+offset_left = 998.0
+offset_top = 873.0
+offset_right = 1340.0
+offset_bottom = 1040.0
 min_value = 10.0
 value = 50.0
 
 [node name="BlackColor" type="TextureButton" parent="."]
-modulate = Color(0, 0, 0, 1)
-offset_left = -3.0
-offset_right = 125.0
-offset_bottom = 128.0
-scale = Vector2(0.6, 0.2)
-texture_normal = ExtResource("3_0hol4")
+offset_left = -4.0
+offset_top = 879.0
+offset_right = 436.0
+offset_bottom = 1190.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("2_d21ai")
 
 [node name="WhiteColor2" type="TextureButton" parent="."]
-offset_left = 79.0
-offset_right = 207.0
-offset_bottom = 128.0
-scale = Vector2(0.6, 0.2)
+offset_left = 780.0
+offset_top = 900.0
+offset_right = 1258.0
+offset_bottom = 1250.0
+scale = Vector2(0.4, 0.3)
 theme = SubResource("Theme_epypp")
-texture_normal = ExtResource("3_0hol4")
+texture_normal = ExtResource("3_rj586")
 
 [node name="BlueColor2" type="TextureButton" parent="."]
-modulate = Color(0, 0, 1, 1)
-offset_left = 158.0
-offset_right = 286.0
-offset_bottom = 128.0
-scale = Vector2(0.6, 0.2)
-texture_normal = ExtResource("3_0hol4")
+offset_left = 185.0
+offset_top = 900.0
+offset_right = 616.0
+offset_bottom = 1162.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("4_4d7sh")
 
 [node name="GreenColor2" type="TextureButton" parent="."]
-modulate = Color(0, 1, 0, 1)
-offset_left = 240.0
-offset_right = 368.0
-offset_bottom = 128.0
-scale = Vector2(0.6, 0.2)
-texture_normal = ExtResource("3_0hol4")
+offset_left = 380.0
+offset_top = 900.0
+offset_right = 813.0
+offset_bottom = 1162.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("5_ir8iy")
 
 [node name="RedColor2" type="TextureButton" parent="."]
-modulate = Color(1, 0, 0, 1)
-offset_left = 324.0
-offset_top = 1.0
-offset_right = 452.0
-offset_bottom = 129.0
-scale = Vector2(0.6, 0.2)
-texture_normal = ExtResource("3_0hol4")
+offset_left = 581.0
+offset_top = 900.0
+offset_right = 1012.0
+offset_bottom = 1162.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("6_hqns4")
 
 [node name="Clear" type="Button" parent="."]
-offset_left = 1084.0
-offset_top = 5.0
-offset_right = 1141.0
-offset_bottom = 36.0
+offset_left = 1509.0
+offset_top = 900.0
+offset_right = 1609.0
+offset_bottom = 1000.0
 text = "CLEAR"
 
 [node name="Circle" type="Sprite2D" parent="."]
@@ -84,10 +87,10 @@ texture = ExtResource("3_epypp")
 centered = false
 
 [node name="RectButton" type="Button" parent="."]
-offset_left = 737.0
-offset_top = 10.0
-offset_right = 794.0
-offset_bottom = 41.0
+offset_left = 1375.0
+offset_top = 900.0
+offset_right = 1475.0
+offset_bottom = 1000.0
 text = "Rectangle"
 
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]

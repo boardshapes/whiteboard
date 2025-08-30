@@ -88,7 +88,7 @@ func _input(event: InputEvent) -> void:
 			if has_last_pos:
 				if rectangle_mode:
 					dimensions = [event.position[0]-start_pos[0],event.position[1]-start_pos[1]] #wxh
-					rectangle_preview = {"type":'rect',"pos": start_pos, "size": dimensions, "color": color}					
+					rectangle_preview = {"type":'rect',"pos": start_pos, "size": dimensions, "color": color}
 				else:
 					var distance = last_pos.distance_to(event.position)
 					var steps = int(distance/2)
