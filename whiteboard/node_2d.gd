@@ -68,7 +68,6 @@ func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
 
 func _input(event: InputEvent) -> void:		
-	flatten()
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
@@ -80,6 +79,7 @@ func _input(event: InputEvent) -> void:
 						strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
 					queue_redraw()
 				else:
+					flatten()
 					if rectangle_mode:
 						dimensions = [event.position[0]-start_pos[0],event.position[1]-start_pos[1]] #wxh
 						strokes.append({"type":'rect', "pos": start_pos, "size": dimensions, "color": color})
@@ -120,4 +120,5 @@ func _draw() -> void:
 			var size = Vector2(stroke.size, stroke.size)  
 			rect = Rect2(stroke.pos - size/2, size)  
 			draw_texture_rect(texture, rect, false, stroke.color)
-	strokes.clear()
+	if not has_last_pos:
+		strokes.clear()
