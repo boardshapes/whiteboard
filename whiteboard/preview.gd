@@ -56,7 +56,8 @@ func _input(event: InputEvent) -> void:
 			
 		has_last_pos = true
 		queue_redraw()
-	mouse_pos = event.position
+	if not event is InputEventKey:
+		mouse_pos = event.position
 	queue_redraw()
 					
 func _draw() -> void:

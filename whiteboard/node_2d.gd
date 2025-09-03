@@ -10,7 +10,6 @@ var drawable: bool = true
 var erasing: bool = false
 var rectangle_mode: bool = false
 var rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
-signal rect_signal(rectangle_preview)
 var dimensions: Array
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
