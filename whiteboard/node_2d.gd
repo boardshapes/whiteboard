@@ -10,9 +10,19 @@ var drawable: bool = true
 var erasing: bool = false
 var rectangle_mode: bool = false
 var rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
+signal rect_signal(rectangle_preview)
 var dimensions: Array
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
+
+var bg : Texture2D
+
+func flatten() -> void:
+	await RenderingServer.frame_post_draw
+	var img = get_viewport().get_texture().get_image()
+	bg = ImageTexture.create_from_image(img)
+	queue_redraw()
+	
 
 func _on_control_mouse_entered() -> void:
 	drawable = true
@@ -22,33 +32,30 @@ func _on_control_mouse_exited() -> void:
 
 func _on_black_color_pressed() -> void:
 	color = Color.BLACK
-	erasing = false
 
 func _on_white_color_pressed() -> void:
-	erasing = true
 	color = Color.WHITE
 
 func _on_blue_color_pressed() -> void:
 	color = Color.BLUE
-	erasing = false
 
 func _on_green_color_pressed() -> void:
 	color = Color.GREEN
-	erasing = false
 
 func _on_red_color_pressed() -> void:
 	color = Color.RED
-	erasing = false
 
 func _on_clear_pressed() -> void:
-	strokes = []
+	bg.unreference() # get rid of that disgusting drawing by unreferencing it
 	queue_redraw()
+	
 
 func _on_rect_button_pressed() -> void:
 	if rectangle_mode:
 		rectangle_mode = false
 		# clear preview
 		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
+		#preview_node.redraw()
 	else:
 		rectangle_mode = true
 
@@ -62,36 +69,30 @@ func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
 
 func _input(event: InputEvent) -> void:		
+	flatten()
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
 				if event.pressed:
 					has_last_pos = true
 					last_pos = event.position
-					print(last_pos)
 					start_pos = event.position
-					if not erasing:
-						if not rectangle_mode:
-							strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
-						queue_redraw()
+					if not rectangle_mode:
+						strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
+					queue_redraw()
 				else:
 					if rectangle_mode:
 						dimensions = [event.position[0]-start_pos[0],event.position[1]-start_pos[1]] #wxh
 						strokes.append({"type":'rect', "pos": start_pos, "size": dimensions, "color": color})
 					# clear preview
 					rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
+					#preview_node.redraw()
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
-			if erasing:
-				strokes = strokes.filter(func(s):
-					return s.pos.distance_to(event.position) > brush_size/4
-				)
-				queue_redraw()
-				return
 			if has_last_pos:
 				if rectangle_mode:
 					dimensions = [event.position[0]-start_pos[0],event.position[1]-start_pos[1]] #wxh
-					rectangle_preview = {"type":'rect',"pos": start_pos, "size": dimensions, "color": color}					
+					rectangle_preview = {"type":'rect',"pos": start_pos, "size": dimensions, "color": color}	
 				else:
 					var distance = last_pos.distance_to(event.position)
 					var steps = int(distance/2)
@@ -102,10 +103,16 @@ func _input(event: InputEvent) -> void:
 				last_pos = event.position
 				
 			has_last_pos = true
-			queue_redraw() 
+			queue_redraw()
+			
+	queue_redraw() 
 
 func _draw() -> void:
+	print(len(strokes))
 	var rect
+	var pos = Vector2(0,0)
+	
+	draw_texture(bg,pos)
 	
 	for stroke in strokes:
 		if stroke.type == 'rect': # seprate draw functions
@@ -115,13 +122,4 @@ func _draw() -> void:
 			var size = Vector2(stroke.size, stroke.size)  
 			rect = Rect2(stroke.pos - size/2, size)  
 			draw_texture_rect(texture, rect, false, stroke.color)
-			
-	#preview rect as your draw	
-	rect = Rect2(rectangle_preview.pos[0],rectangle_preview.pos[1],rectangle_preview.size[0],rectangle_preview.size[1])	
-	draw_rect(rect,rectangle_preview.color)
-	
-
-	if drawable:
-		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
-	if erasing:
-		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
+	strokes.clear()
