@@ -14,12 +14,12 @@ bg_color = Color(1, 1, 1, 1)
 [node name="Node2D" type="Node2D"]
 
 [node name="CanvasViewport" type="SubViewportContainer" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="drawingViewport" type="SubViewport" parent="CanvasViewport"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Line2D" type="Line2D" parent="CanvasViewport/drawingViewport"]
@@ -41,7 +41,9 @@ script = ExtResource("1_wtcfe")
 
 [node name="preViewport" type="SubViewport" parent="CanvasViewport"]
 transparent_bg = true
-size = Vector2i(1152, 648)
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
 
 [node name="Preview" type="Node2D" parent="CanvasViewport/preViewport"]
 script = ExtResource("3_q6r6c")
@@ -54,7 +56,7 @@ offset_bottom = 30.0
 [node name="SubViewport" type="SubViewport" parent="ButtonsViewport"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1152, 35)
+size = Vector2i(1920, 35)
 render_target_update_mode = 4
 
 [node name="BlackColor" type="TextureButton" parent="ButtonsViewport/SubViewport"]
@@ -145,8 +147,8 @@ value = 50.0
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
