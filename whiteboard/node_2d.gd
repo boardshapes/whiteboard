@@ -43,14 +43,17 @@ func _on_red_color_pressed() -> void:
 func _on_clear_pressed() -> void:
 	strokes = []
 	queue_redraw()
-	
-func _on_rectangle_pressed() -> void:
+
+func _on_rect_button_pressed() -> void:
 	if rectangle_mode:
 		rectangle_mode = false
 		# clear preview
 		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
 	else:
 		rectangle_mode = true
+
+func _on_save_pressed() -> void:
+	get_viewport().get_texture().get_image().save_jpg("export.jpeg")
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value

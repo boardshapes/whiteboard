@@ -11,42 +11,63 @@ bg_color = Color(1, 1, 1, 1)
 /styles/white = SubResource("StyleBoxFlat_0e48y")
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_wtcfe")
 
-[node name="Line2D" type="Line2D" parent="."]
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 50.0
+[node name="CanvasViewport" type="SubViewportContainer" parent="."]
+offset_top = 38.0
 offset_right = 1152.0
 offset_bottom = 648.0
 
-[node name="BrushSize" type="HSlider" parent="."]
-offset_left = 441.0
-offset_top = -8.0
-offset_right = 640.0
-offset_bottom = 50.0
-min_value = 10.0
-value = 50.0
+[node name="SubViewport" type="SubViewport" parent="CanvasViewport"]
+handle_input_locally = false
+size = Vector2i(1152, 610)
+render_target_update_mode = 4
 
-[node name="BlackColor" type="TextureButton" parent="."]
+[node name="Line2D" type="Line2D" parent="CanvasViewport/SubViewport"]
+
+[node name="Control" type="Control" parent="CanvasViewport/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -209.0
+offset_top = -38.0
+offset_right = 943.0
+offset_bottom = 579.0
+
+[node name="Circle" type="Sprite2D" parent="CanvasViewport/SubViewport"]
+scale = Vector2(0.002, 0.002)
+texture = ExtResource("3_epypp")
+centered = false
+
+[node name="Node2D" type="Node2D" parent="CanvasViewport/SubViewport"]
+script = ExtResource("1_wtcfe")
+
+[node name="ButtonsViewport" type="SubViewportContainer" parent="."]
+top_level = true
+offset_right = 400.0
+offset_bottom = 30.0
+
+[node name="SubViewport" type="SubViewport" parent="ButtonsViewport"]
+handle_input_locally = false
+size = Vector2i(1152, 35)
+render_target_update_mode = 4
+
+[node name="BlackColor" type="TextureButton" parent="ButtonsViewport/SubViewport"]
 modulate = Color(0, 0, 0, 1)
-offset_left = -3.0
-offset_right = 125.0
+offset_left = 4.0
+offset_right = 132.0
 offset_bottom = 128.0
 scale = Vector2(0.6, 0.2)
 texture_normal = ExtResource("3_0hol4")
 
-[node name="WhiteColor2" type="TextureButton" parent="."]
-offset_left = 79.0
-offset_right = 207.0
-offset_bottom = 128.0
+[node name="WhiteColor2" type="TextureButton" parent="ButtonsViewport/SubViewport"]
+offset_left = 81.0
+offset_top = 1.0
+offset_right = 209.0
+offset_bottom = 129.0
 scale = Vector2(0.6, 0.2)
 theme = SubResource("Theme_epypp")
 texture_normal = ExtResource("3_0hol4")
 
-[node name="BlueColor2" type="TextureButton" parent="."]
+[node name="BlueColor2" type="TextureButton" parent="ButtonsViewport/SubViewport"]
 modulate = Color(0, 0, 1, 1)
 offset_left = 158.0
 offset_right = 286.0
@@ -54,7 +75,7 @@ offset_bottom = 128.0
 scale = Vector2(0.6, 0.2)
 texture_normal = ExtResource("3_0hol4")
 
-[node name="GreenColor2" type="TextureButton" parent="."]
+[node name="GreenColor2" type="TextureButton" parent="ButtonsViewport/SubViewport"]
 modulate = Color(0, 1, 0, 1)
 offset_left = 240.0
 offset_right = 368.0
@@ -62,7 +83,7 @@ offset_bottom = 128.0
 scale = Vector2(0.6, 0.2)
 texture_normal = ExtResource("3_0hol4")
 
-[node name="RedColor2" type="TextureButton" parent="."]
+[node name="RedColor2" type="TextureButton" parent="ButtonsViewport/SubViewport"]
 modulate = Color(1, 0, 0, 1)
 offset_left = 324.0
 offset_top = 1.0
@@ -71,33 +92,47 @@ offset_bottom = 129.0
 scale = Vector2(0.6, 0.2)
 texture_normal = ExtResource("3_0hol4")
 
-[node name="Clear" type="Button" parent="."]
-offset_left = 1084.0
-offset_top = 5.0
-offset_right = 1141.0
-offset_bottom = 36.0
+[node name="Clear" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 1087.0
+offset_top = 3.0
+offset_right = 1144.0
+offset_bottom = 34.0
 text = "CLEAR"
 
-[node name="Circle" type="Sprite2D" parent="."]
-scale = Vector2(0.002, 0.002)
-texture = ExtResource("3_epypp")
-centered = false
-
-[node name="RectButton" type="Button" parent="."]
-offset_left = 737.0
-offset_top = 10.0
-offset_right = 794.0
-offset_bottom = 41.0
+[node name="RectButton" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 651.0
+offset_top = 2.0
+offset_right = 735.0
+offset_bottom = 33.0
 text = "Rectangle"
 
-[connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]
-[connection signal="value_changed" from="BrushSize" to="." method="_on_brush_size_value_changed"]
-[connection signal="mouse_entered" from="BlackColor" to="." method="_on_button_mouse_entered"]
-[connection signal="pressed" from="BlackColor" to="." method="_on_black_color_pressed"]
-[connection signal="pressed" from="WhiteColor2" to="." method="_on_white_color_pressed"]
-[connection signal="pressed" from="BlueColor2" to="." method="_on_blue_color_pressed"]
-[connection signal="pressed" from="GreenColor2" to="." method="_on_green_color_pressed"]
-[connection signal="pressed" from="RedColor2" to="." method="_on_red_color_pressed"]
-[connection signal="pressed" from="Clear" to="." method="_on_clear_pressed"]
-[connection signal="pressed" from="RectButton" to="." method="_on_rectangle_pressed"]
+[node name="save" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 903.0
+offset_top = 3.0
+offset_right = 947.0
+offset_bottom = 34.0
+text = "Save"
+
+[node name="BrushSize" type="HSlider" parent="ButtonsViewport/SubViewport"]
+offset_left = 441.0
+offset_top = -8.0
+offset_right = 640.0
+offset_bottom = 50.0
+min_value = 10.0
+value = 50.0
+
+[connection signal="mouse_entered" from="CanvasViewport/SubViewport/Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasViewport/SubViewport/Control" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_black_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/SubViewport/Node2D" method="_on_black_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_white_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_blue_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_green_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_red_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/Clear" to="CanvasViewport/SubViewport/Node2D" method="_on_clear_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/SubViewport/Node2D" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/SubViewport/Node2D" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/SubViewport/Node2D" method="_on_save_pressed"]
+[connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/SubViewport/Node2D" method="_on_brush_size_value_changed"]
