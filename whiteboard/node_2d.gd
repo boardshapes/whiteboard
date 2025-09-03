@@ -106,7 +106,7 @@ func _input(event: InputEvent) -> void:
 	queue_redraw() 
 
 func _draw() -> void:
-	print(len(strokes))
+	#print(len(strokes))
 	var rect
 	var pos = Vector2(0,0)
 	
@@ -115,15 +115,16 @@ func _draw() -> void:
 	for i in range(strokes.size()-1):
 		var curr = strokes[i]
 		var next = strokes[i+1]
-		if curr.type == 'rect': # seprate draw functions
-			rect = Rect2(curr.pos[0],curr.pos[1],curr.size[0],curr.size[1])
-			draw_rect(rect,curr.color)
-		else:
+		if not curr.type == 'rect': # separate draw functions
 			draw_line(curr.pos,next.pos,curr.color,curr.size/2)
 			draw_circle(curr.pos,curr.size/4,curr.color)
 	if strokes.size()>0:
 		var curr = strokes[-1]
-		draw_circle(curr.pos,curr.size/4,curr.color)
+		if curr.type == 'rect':
+			rect = Rect2(curr.pos[0],curr.pos[1],curr.size[0],curr.size[1])
+			draw_rect(rect,curr.color)
+		else:
+			draw_circle(curr.pos,curr.size/4,curr.color)
 	
 	if not has_last_pos:
 		strokes.clear()
