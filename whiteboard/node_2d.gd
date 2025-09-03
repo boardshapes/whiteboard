@@ -14,7 +14,8 @@ var dimensions: Array
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
 
-var bg : Texture2D
+var default_bg : Texture2D = load("res://blank.jpeg")
+var bg : Texture2D = default_bg
 
 func flatten() -> void:
 	await RenderingServer.frame_post_draw
@@ -45,7 +46,7 @@ func _on_red_color_pressed() -> void:
 	color = Color.RED
 
 func _on_clear_pressed() -> void:
-	bg.unreference() # get rid of that disgusting drawing by unreferencing it
+	bg = default_bg # get rid of that disgusting drawing by blanking it
 	queue_redraw()
 	
 
@@ -91,12 +92,12 @@ func _input(event: InputEvent) -> void:
 					dimensions = [event.position[0]-start_pos[0],event.position[1]-start_pos[1]] #wxh
 					rectangle_preview = {"type":'rect',"pos": start_pos, "size": dimensions, "color": color}	
 				else:
-					var distance = last_pos.distance_to(event.position)
-					var steps = int(distance/2)
-					for i in range(steps):
-						var t = float(i) / steps
-						var interp_pos = last_pos.lerp(event.position, t)
-						strokes.append({"type":'brush', "pos": interp_pos, "size": brush_size, "color": color})
+					#var distance = last_pos.distance_to(event.position)
+					#var steps = int(distance/2)
+					#for i in range(steps):
+						#var t = float(i) / steps
+						#var interp_pos = last_pos.lerp(event.position, t)
+					strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
 				last_pos = event.position
 				
 			has_last_pos = true
@@ -111,13 +112,18 @@ func _draw() -> void:
 	
 	draw_texture(bg,pos)
 	
-	for stroke in strokes:
-		if stroke.type == 'rect': # seprate draw functions
-			rect = Rect2(stroke.pos[0],stroke.pos[1],stroke.size[0],stroke.size[1])
-			draw_rect(rect,stroke.color)
+	for i in range(strokes.size()-1):
+		var curr = strokes[i]
+		var next = strokes[i+1]
+		if curr.type == 'rect': # seprate draw functions
+			rect = Rect2(curr.pos[0],curr.pos[1],curr.size[0],curr.size[1])
+			draw_rect(rect,curr.color)
 		else:
-			var size = Vector2(stroke.size, stroke.size)  
-			rect = Rect2(stroke.pos - size/2, size)  
-			draw_texture_rect(texture, rect, false, stroke.color)
+			draw_line(curr.pos,next.pos,curr.color,curr.size/2)
+			draw_circle(curr.pos,curr.size/4,curr.color)
+	if strokes.size()>0:
+		var curr = strokes[-1]
+		draw_circle(curr.pos,curr.size/4,curr.color)
+	
 	if not has_last_pos:
 		strokes.clear()
