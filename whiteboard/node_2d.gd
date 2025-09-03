@@ -55,7 +55,6 @@ func _on_rect_button_pressed() -> void:
 		rectangle_mode = false
 		# clear preview
 		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
-		#preview_node.redraw()
 	else:
 		rectangle_mode = true
 
@@ -86,7 +85,6 @@ func _input(event: InputEvent) -> void:
 						strokes.append({"type":'rect', "pos": start_pos, "size": dimensions, "color": color})
 					# clear preview
 					rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
-					#preview_node.redraw()
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			if has_last_pos:

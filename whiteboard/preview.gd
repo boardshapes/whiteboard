@@ -46,7 +46,6 @@ func _input(event: InputEvent) -> void:
 					last_pos = event.position
 				else:					
 					rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
-					#preview_node.redraw()
 					has_last_pos = false
 	elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		if has_last_pos:
