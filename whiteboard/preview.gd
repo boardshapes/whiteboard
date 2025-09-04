@@ -67,7 +67,8 @@ func _draw() -> void:
 		rectangle_preview.size[0],
 		rectangle_preview.size[1]
 	)
-	rect = Rect2(rectangle_preview.pos[0],rectangle_preview.pos[1],rectangle_preview.size[0],rectangle_preview.size[1])	
-	draw_rect(rect,rectangle_preview.color, false, 1)
-	
-	draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
+	if rectangle_mode:
+		rect = Rect2(rectangle_preview.pos[0],rectangle_preview.pos[1],rectangle_preview.size[0],rectangle_preview.size[1])	
+		draw_rect(rect,rectangle_preview.color, false, 1)
+	else:
+		draw_circle(mouse_pos, brush_size/4, color, false, 2.0)
