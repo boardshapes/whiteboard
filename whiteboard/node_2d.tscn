@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cagnq7h1kytei"]
+[gd_scene load_steps=7 format=3 uid="uid://cagnq7h1kytei"]
 
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://node_2d.gd" id="1_wtcfe"]
 [ext_resource type="Texture2D" uid="uid://bin2oqrw77u1y" path="res://icon.svg" id="3_0hol4"]
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="3_epypp"]
+[ext_resource type="Script" uid="uid://f6mqkv6gh46m" path="res://preview.gd" id="3_q6r6c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -13,32 +14,39 @@ bg_color = Color(1, 1, 1, 1)
 [node name="Node2D" type="Node2D"]
 
 [node name="CanvasViewport" type="SubViewportContainer" parent="."]
-offset_top = 38.0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
-[node name="SubViewport" type="SubViewport" parent="CanvasViewport"]
+[node name="drawingViewport" type="SubViewport" parent="CanvasViewport"]
 handle_input_locally = false
-size = Vector2i(1152, 610)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="Line2D" type="Line2D" parent="CanvasViewport/SubViewport"]
+[node name="Line2D" type="Line2D" parent="CanvasViewport/drawingViewport"]
 
-[node name="Control" type="Control" parent="CanvasViewport/SubViewport"]
+[node name="Control" type="Control" parent="CanvasViewport/drawingViewport"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -209.0
-offset_top = -38.0
-offset_right = 943.0
-offset_bottom = 579.0
+offset_top = -6.0
+offset_right = 1152.0
+offset_bottom = 611.0
 
-[node name="Circle" type="Sprite2D" parent="CanvasViewport/SubViewport"]
+[node name="Circle" type="Sprite2D" parent="CanvasViewport/drawingViewport"]
 scale = Vector2(0.002, 0.002)
 texture = ExtResource("3_epypp")
 centered = false
 
-[node name="Node2D" type="Node2D" parent="CanvasViewport/SubViewport"]
+[node name="Canvas" type="Node2D" parent="CanvasViewport/drawingViewport"]
 script = ExtResource("1_wtcfe")
+
+[node name="preViewport" type="SubViewport" parent="CanvasViewport"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Preview" type="Node2D" parent="CanvasViewport/preViewport"]
+script = ExtResource("3_q6r6c")
 
 [node name="ButtonsViewport" type="SubViewportContainer" parent="."]
 top_level = true
@@ -46,8 +54,9 @@ offset_right = 400.0
 offset_bottom = 30.0
 
 [node name="SubViewport" type="SubViewport" parent="ButtonsViewport"]
+transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1152, 35)
+size = Vector2i(1920, 35)
 render_target_update_mode = 4
 
 [node name="BlackColor" type="TextureButton" parent="ButtonsViewport/SubViewport"]
@@ -121,18 +130,26 @@ offset_bottom = 50.0
 min_value = 10.0
 value = 50.0
 
-[connection signal="mouse_entered" from="CanvasViewport/SubViewport/Control" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasViewport/SubViewport/Control" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_black_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/SubViewport/Node2D" method="_on_black_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_white_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_blue_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_blue_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_green_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/SubViewport/Node2D" method="_on_red_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/Clear" to="CanvasViewport/SubViewport/Node2D" method="_on_clear_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/SubViewport/Node2D" method="_on_rectangle_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/SubViewport/Node2D" method="_on_rect_button_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/SubViewport/Node2D" method="_on_save_pressed"]
-[connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/SubViewport/Node2D" method="_on_brush_size_value_changed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_black_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/preViewport/Preview" method="_on_black_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/preViewport/Preview" method="_on_green_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
+[connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
+[connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/preViewport/Preview" method="_on_brush_size_value_changed"]
