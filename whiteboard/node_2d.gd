@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var pick_image_file_dialog = $"../LoadImage"
+@onready var pick_save_location_dialog = $"../SaveDialog"
 var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
@@ -17,12 +19,40 @@ var texture : Texture2D = load("res://circle.png")
 var default_bg : Texture2D = load("res://blank.jpeg")
 var bg : Texture2D = default_bg
 
+func _ready():
+	# Set default directory and filename for the save
+	pick_save_location_dialog.current_file = "save.png"
+	pick_save_location_dialog.mode = FileDialog.FILE_MODE_SAVE_FILE
+	pick_save_location_dialog.access = FileDialog.ACCESS_FILESYSTEM	
+	pick_save_location_dialog.filters = ["*.png,*.jpeg,*.jpg ; Image Files"]
+
+	
+func _on_load_pressed() -> void: #bring up dialog box
+	pick_image_file_dialog.show()
+
+func _on_save_pressed() -> void:
+	pick_save_location_dialog.show()
+	
+func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up image
+	var img = Image.load_from_file(path)
+	if img == null:
+		return
+	bg = ImageTexture.create_from_image(img)
+	queue_redraw()
+	
+func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save that image
+	if path[-2] == 'n': # .png has n at -2
+		get_viewport().get_texture().get_image().save_png(path)		
+	else:
+		get_viewport().get_texture().get_image().save_jpg(path)
+			
+	pass
+
 func flatten() -> void:
 	await RenderingServer.frame_post_draw
 	var img = get_viewport().get_texture().get_image()
 	bg = ImageTexture.create_from_image(img)
 	queue_redraw()
-	
 
 func _on_control_mouse_entered() -> void:
 	drawable = true
@@ -57,9 +87,6 @@ func _on_rect_button_pressed() -> void:
 		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
 	else:
 		rectangle_mode = true
-
-func _on_save_pressed() -> void:
-	get_viewport().get_texture().get_image().save_jpg("export.jpeg")
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
