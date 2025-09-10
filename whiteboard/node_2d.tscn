@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://node_2d.gd" id="1_wtcfe"]
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="3_epypp"]
+[ext_resource type="Script" path="res://preview.gd" id="3_q6r6c"]
 [ext_resource type="Script" uid="uid://f6mqkv6gh46m" path="res://preview.gd" id="3_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://cupc3eg2b6ugj" path="res://buttons/blackmarker.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://dl7f8fr5u4m2u" path="res://buttons/eraser.png" id="5_rj586"]
@@ -44,6 +45,16 @@ centered = false
 
 [node name="Canvas" type="Node2D" parent="CanvasViewport/drawingViewport"]
 script = ExtResource("1_wtcfe")
+
+[node name="LoadImage" type="FileDialog" parent="CanvasViewport/drawingViewport"]
+title = "Open a File"
+position = Vector2i(30, 80)
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.png,*.jpeg,*.jpg;Compatible Image Files")
+
+[node name="SaveDialog" type="FileDialog" parent="CanvasViewport/drawingViewport"]
+filters = PackedStringArray("*.png,*.jpeg,*.jpg;Compatible Image Files")
 
 [node name="preViewport" type="SubViewport" parent="CanvasViewport"]
 transparent_bg = true
@@ -134,16 +145,26 @@ offset_bottom = 56.0
 min_value = 10.0
 value = 50.0
 
+[node name="Button" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 790.0
+offset_top = 2.0
+offset_right = 832.0
+offset_bottom = 33.0
+text = "load
+"
+
 [connection signal="mouse_entered" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_exited"]
+[connection signal="file_selected" from="CanvasViewport/drawingViewport/LoadImage" to="CanvasViewport/drawingViewport/Canvas" method="_on_pick_image_file_dialog_file_selected"]
+[connection signal="file_selected" from="CanvasViewport/drawingViewport/SaveDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_pick_save_location_dialog_file_selected"]
 [connection signal="mouse_entered" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="." method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/preViewport/Preview" method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
@@ -157,3 +178,4 @@ value = 50.0
 [connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/preViewport/Preview" method="_on_brush_size_value_changed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/Button" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
