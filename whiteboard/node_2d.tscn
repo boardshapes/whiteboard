@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cik14u3lmp2co" path="res://buttons/greenmarker.png" id="7_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://dgfgbdugdf7k" path="res://buttons/redmarker.png" id="8_hqns4"]
 [ext_resource type="Texture2D" uid="uid://b3lrysiq4exdl" path="res://buttons/RectangleButton.png" id="9_4d7sh"]
-[ext_resource type="Texture2D" uid="uid://cxbi0l1swuiqd" path="res://buttons/ClearBottle.png" id="9_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://dsnb6br1wk27f" path="res://buttons/SprayBottle.png" id="9_ir8iy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -120,9 +120,9 @@ texture_normal = ExtResource("8_hqns4")
 
 [node name="Clear" type="TextureButton" parent="ButtonsViewport/SubViewport"]
 offset_left = 1843.0
-offset_right = 2015.0
-offset_bottom = 373.0
-scale = Vector2(0.4, 0.2)
+offset_right = 2042.0
+offset_bottom = 355.0
+scale = Vector2(0.3, 0.2)
 texture_normal = ExtResource("9_ir8iy")
 
 [node name="RectButton" type="TextureButton" parent="ButtonsViewport/SubViewport"]
@@ -166,8 +166,8 @@ text = "load
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlackColor" to="CanvasViewport/preViewport/Preview" method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/WhiteColor2" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]

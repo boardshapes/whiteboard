@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxbi0l1swuiqd"
-path="res://.godot/imported/ClearBottle.png-a5ee3e4a82c35ba5ad6256c0055601d5.ctex"
+uid="uid://dsnb6br1wk27f"
+path="res://.godot/imported/SprayBottle.png-c0996317623119c813740ed552b2ca6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buttons/ClearBottle.png"
-dest_files=["res://.godot/imported/ClearBottle.png-a5ee3e4a82c35ba5ad6256c0055601d5.ctex"]
+source_file="res://buttons/SprayBottle.png"
+dest_files=["res://.godot/imported/SprayBottle.png-c0996317623119c813740ed552b2ca6a.ctex"]
 
 [params]
 
