@@ -2,6 +2,9 @@ extends Node2D
 
 @onready var pick_image_file_dialog = $"../LoadImage"
 @onready var pick_save_location_dialog = $"../SaveDialog"
+@onready var undo_button = get_node("../../../ButtonsViewport/SubViewport/undo")
+@onready var redo_button = get_node("../../../ButtonsViewport/SubViewport/redo")
+@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/RectButton")
 var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
@@ -21,6 +24,10 @@ var bg : Texture2D = default_bg
 var history : Array = []
 var undo_index = 0
 
+func button_updates():
+	undo_button.disabled = (undo_index == 0)
+	redo_button.disabled = (undo_index == history.size()-1)
+
 func _ready():
 	# Set default directory and filename for the save
 	pick_save_location_dialog.current_file = "save.png"
@@ -28,24 +35,28 @@ func _ready():
 	pick_save_location_dialog.access = FileDialog.ACCESS_FILESYSTEM	
 	pick_save_location_dialog.filters = ["*.png,*.jpeg,*.jpg ; Image Files"]
 	history.append(default_bg) #init the undo history
+	redo_button.disabled = true
 
-func flatten() -> void:		
+func flatten() -> void:
 	await RenderingServer.frame_post_draw
 	var img = get_viewport().get_texture().get_image()
 	bg = ImageTexture.create_from_image(img)
 	while undo_index<history.size()-1: # if you draw after undo, clear the other stuff
 		history.pop_back()
-	history.append(bg) # todo: limit to history, maybe 50 at MOST (dont make fun of me for todo's)
-	undo_index += 1
+	history.append(bg) 
+	if history.size()>25: # limit to 25 elements for now
+		print(history)
+		history.remove_at(0)
+		print(history)
+	else:
+		undo_index += 1
+	button_updates()
 	queue_redraw()
 	
 func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
 
 func _input(event: InputEvent) -> void:		
-	print("~~~~~~")
-	print(undo_index)
-	print(history.size()-1)
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
@@ -84,7 +95,6 @@ func _input(event: InputEvent) -> void:
 	queue_redraw() 
 
 func _draw() -> void:
-	#print(len(strokes))
 	var rect
 	var pos = Vector2(0,0)
 	
@@ -107,7 +117,6 @@ func _draw() -> void:
 	if not has_last_pos:
 		strokes.clear()
 
-	
 func _on_load_pressed() -> void: #bring up dialog box
 	pick_image_file_dialog.show()
 
@@ -133,12 +142,14 @@ func _undo_pressed() -> void:
 	if undo_index > 0: 
 		undo_index -= 1
 	bg = history[undo_index]
+	button_updates()
 	queue_redraw()
 	
 func _on_redo_pressed() -> void:
 	if undo_index < history.size()-1:
 		undo_index += 1
 	bg = history[undo_index]
+	button_updates()
 	queue_redraw()
 
 func _on_control_mouse_entered() -> void:
