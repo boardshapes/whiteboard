@@ -156,6 +156,20 @@ offset_bottom = 33.0
 text = "load
 "
 
+[node name="undo" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 1414.0
+offset_top = 10.0
+offset_right = 1464.0
+offset_bottom = 41.0
+text = "Undo"
+
+[node name="redo" type="Button" parent="ButtonsViewport/SubViewport"]
+offset_left = 1490.0
+offset_top = 12.0
+offset_right = 1540.0
+offset_bottom = 43.0
+text = "Redo"
+
 [connection signal="mouse_entered" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasViewport/drawingViewport/Control" to="." method="_on_control_mouse_exited"]
 [connection signal="file_selected" from="CanvasViewport/drawingViewport/LoadImage" to="CanvasViewport/drawingViewport/Canvas" method="_on_pick_image_file_dialog_file_selected"]
@@ -169,16 +183,18 @@ text = "load
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/BlueColor2" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/GreenColor2" to="CanvasViewport/preViewport/Preview" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RedColor2" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/BrushSize" to="CanvasViewport/preViewport/Preview" method="_on_brush_size_value_changed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/Button" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/undo" to="CanvasViewport/drawingViewport/Canvas" method="_undo_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/redo" to="CanvasViewport/drawingViewport/Canvas" method="_on_redo_pressed"]
