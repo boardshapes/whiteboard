@@ -2,9 +2,7 @@ extends Node2D
 
 @onready var pick_image_file_dialog = $"../LoadImage"
 @onready var pick_save_location_dialog = $"../SaveDialog"
-@onready var undo_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/undo")
-@onready var redo_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/redo")
-@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton")
+#@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton")
 var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
@@ -24,9 +22,9 @@ var bg : Texture2D = default_bg
 var history : Array = []
 var undo_index = 0
 
-func button_updates():
-	undo_button.disabled = (undo_index == 0)
-	redo_button.disabled = (undo_index == history.size()-1)
+func update_buttons():
+	%undo.disabled = (undo_index == 0)
+	%redo.disabled = (undo_index == history.size()-1)
 
 func _ready():
 	# Set default directory and filename for the save
@@ -35,7 +33,7 @@ func _ready():
 	pick_save_location_dialog.access = FileDialog.ACCESS_FILESYSTEM	
 	pick_save_location_dialog.filters = ["*.png,*.jpeg,*.jpg ; Image Files"]
 	history.append(default_bg) #init the undo history
-	redo_button.disabled = true
+	%redo.disabled = true
 
 func flatten() -> void:
 	await RenderingServer.frame_post_draw
@@ -50,7 +48,7 @@ func flatten() -> void:
 		print(history)
 	else:
 		undo_index += 1
-	button_updates()
+	update_buttons()
 	queue_redraw()
 	
 func _process(delta: float) -> void:
@@ -142,14 +140,14 @@ func _undo_pressed() -> void:
 	if undo_index > 0: 
 		undo_index -= 1
 	bg = history[undo_index]
-	button_updates()
+	update_buttons()
 	queue_redraw()
 	
 func _on_redo_pressed() -> void:
 	if undo_index < history.size()-1:
 		undo_index += 1
 	bg = history[undo_index]
-	button_updates()
+	update_buttons()
 	queue_redraw()
 
 func _on_black_color_pressed() -> void:
