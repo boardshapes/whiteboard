@@ -2,9 +2,9 @@ extends Node2D
 
 @onready var pick_image_file_dialog = $"../LoadImage"
 @onready var pick_save_location_dialog = $"../SaveDialog"
-@onready var undo_button = get_node("../../../ButtonsViewport/SubViewport/undo")
-@onready var redo_button = get_node("../../../ButtonsViewport/SubViewport/redo")
-@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/RectButton")
+@onready var undo_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/undo")
+@onready var redo_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/redo")
+@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton")
 var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
@@ -151,12 +151,6 @@ func _on_redo_pressed() -> void:
 	bg = history[undo_index]
 	button_updates()
 	queue_redraw()
-
-func _on_control_mouse_entered() -> void:
-	drawable = true
-
-func _on_control_mouse_exited() -> void:
-	drawable = false
 
 func _on_black_color_pressed() -> void:
 	color = Color.BLACK
