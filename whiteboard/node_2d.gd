@@ -2,7 +2,6 @@ extends Node2D
 
 @onready var pick_image_file_dialog = $"../LoadImage"
 @onready var pick_save_location_dialog = $"../SaveDialog"
-#@onready var rect_button = get_node("../../../ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton")
 var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
@@ -54,7 +53,12 @@ func flatten() -> void:
 func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
 
-func _input(event: InputEvent) -> void:		
+func _input(event: InputEvent) -> void:	
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_Z and event.ctrl_pressed:
+			_on_undo_pressed()
+		if event.keycode == KEY_Y and event.ctrl_pressed:
+			_on_redo_pressed()
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
@@ -136,7 +140,7 @@ func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save t
 			
 	pass
 	
-func _undo_pressed() -> void:
+func _on_undo_pressed() -> void:
 	if undo_index > 0: 
 		undo_index -= 1
 	bg = history[undo_index]

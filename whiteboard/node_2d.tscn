@@ -206,5 +206,5 @@ text = "Redo"
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BrushSize" to="CanvasViewport/preViewport/Preview" method="_on_brush_size_value_changed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/load" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/undo" to="CanvasViewport/drawingViewport/Canvas" method="_undo_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/undo" to="CanvasViewport/drawingViewport/Canvas" method="_on_undo_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/redo" to="CanvasViewport/drawingViewport/Canvas" method="_on_redo_pressed"]
