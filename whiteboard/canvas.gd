@@ -18,6 +18,12 @@ var texture : Texture2D = load("res://circle.png")
 
 var default_bg : Texture2D = load("res://blank.jpeg")
 var bg : Texture2D = default_bg
+var history : Array = []
+var undo_index = 0
+
+func update_buttons():
+	%undo.disabled = (undo_index == 0)
+	%redo.disabled = (undo_index == history.size()-1)
 
 func _ready():
 	# Set default directory and filename for the save
@@ -25,76 +31,32 @@ func _ready():
 	pick_save_location_dialog.mode = FileDialog.FILE_MODE_SAVE_FILE
 	pick_save_location_dialog.access = FileDialog.ACCESS_FILESYSTEM	
 	pick_save_location_dialog.filters = ["*.png,*.jpeg,*.jpg ; Image Files"]
-
-	
-func _on_load_pressed() -> void: #bring up dialog box
-	pick_image_file_dialog.show()
-
-func _on_save_pressed() -> void:
-	pick_save_location_dialog.show()
-	
-func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up image
-	var img = Image.load_from_file(path)
-	if img == null:
-		return
-	bg = ImageTexture.create_from_image(img)
-	queue_redraw()
-	
-func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save that image
-	if path[-2] == 'n': # .png has n at -2
-		get_viewport().get_texture().get_image().save_png(path)		
-	else:
-		get_viewport().get_texture().get_image().save_jpg(path)
-			
-	pass
+	history.append(default_bg) #init the undo history
+	%redo.disabled = true
 
 func flatten() -> void:
 	await RenderingServer.frame_post_draw
 	var img = get_viewport().get_texture().get_image()
 	bg = ImageTexture.create_from_image(img)
-	queue_redraw()
-
-func _on_control_mouse_entered() -> void:
-	drawable = true
-
-func _on_control_mouse_exited() -> void:
-	drawable = false
-
-func _on_black_color_pressed() -> void:
-	color = Color.BLACK
-
-func _on_white_color_pressed() -> void:
-	color = Color.WHITE
-
-func _on_blue_color_pressed() -> void:
-	color = Color.BLUE
-
-func _on_green_color_pressed() -> void:
-	color = Color.GREEN
-
-func _on_red_color_pressed() -> void:
-	color = Color.RED
-
-func _on_clear_pressed() -> void:
-	bg = default_bg # get rid of that disgusting drawing by blanking it
+	while undo_index<history.size()-1: # if you draw after undo, clear the other stuff
+		history.pop_back()
+	history.append(bg) 
+	if history.size()>25: # limit to 25 elements for now
+		history.remove_at(0)
+	else:
+		undo_index += 1
+	update_buttons()
 	queue_redraw()
 	
-
-func _on_rect_button_pressed() -> void:
-	if rectangle_mode:
-		rectangle_mode = false
-		# clear preview
-		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
-	else:
-		rectangle_mode = true
-
-func _on_brush_size_value_changed(value: float) -> void:
-	brush_size = value
-
 func _process(delta: float) -> void:
 	mouse_pos = get_global_mouse_position()
 
-func _input(event: InputEvent) -> void:		
+func _input(event: InputEvent) -> void:	
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_Z and event.ctrl_pressed:
+			_on_undo_pressed()
+		if event.keycode == KEY_Y and event.ctrl_pressed:
+			_on_redo_pressed()
 	if drawable:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
@@ -133,7 +95,6 @@ func _input(event: InputEvent) -> void:
 	queue_redraw() 
 
 func _draw() -> void:
-	#print(len(strokes))
 	var rect
 	var pos = Vector2(0,0)
 	
@@ -155,3 +116,68 @@ func _draw() -> void:
 	
 	if not has_last_pos:
 		strokes.clear()
+
+func _on_load_pressed() -> void: #bring up dialog box
+	pick_image_file_dialog.show()
+
+func _on_save_pressed() -> void:
+	pick_save_location_dialog.show()
+	
+func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up image
+	var img = Image.load_from_file(path)
+	if img == null:
+		return
+	bg = ImageTexture.create_from_image(img)
+	queue_redraw()
+	
+func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save that image
+	if path[-2] == 'n': # .png has n at -2
+		get_viewport().get_texture().get_image().save_png(path)		
+	else:
+		get_viewport().get_texture().get_image().save_jpg(path)
+			
+	pass
+	
+func _on_undo_pressed() -> void:
+	if undo_index > 0: 
+		undo_index -= 1
+	bg = history[undo_index]
+	update_buttons()
+	queue_redraw()
+	
+func _on_redo_pressed() -> void:
+	if undo_index < history.size()-1:
+		undo_index += 1
+	bg = history[undo_index]
+	update_buttons()
+	queue_redraw()
+
+func _on_black_color_pressed() -> void:
+	color = Color.BLACK
+
+func _on_white_color_pressed() -> void:
+	color = Color.WHITE
+
+func _on_blue_color_pressed() -> void:
+	color = Color.BLUE
+
+func _on_green_color_pressed() -> void:
+	color = Color.GREEN
+
+func _on_red_color_pressed() -> void:
+	color = Color.RED
+
+func _on_clear_pressed() -> void:
+	bg = default_bg # get rid of that disgusting drawing by blanking it
+	queue_redraw()
+
+func _on_rect_button_pressed() -> void:
+	if rectangle_mode:
+		rectangle_mode = false
+		# clear preview
+		rectangle_preview = {"type":'rect',"pos": [0,0], "size": [0,0], "color": color}
+	else:
+		rectangle_mode = true
+
+func _on_brush_size_value_changed(value: float) -> void:
+	brush_size = value
