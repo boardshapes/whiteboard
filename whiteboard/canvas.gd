@@ -42,7 +42,6 @@ func flatten() -> void:
 		history.pop_back()
 	history.append(bg) 
 	if history.size()>25: # limit to 25 elements for now
-		print(history)
 		history.remove_at(0)
 		print(history)
 	else:
