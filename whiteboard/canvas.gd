@@ -43,7 +43,6 @@ func flatten() -> void:
 	history.append(bg) 
 	if history.size()>25: # limit to 25 elements for now
 		history.remove_at(0)
-		print(history)
 	else:
 		undo_index += 1
 	update_buttons()
