@@ -19,6 +19,15 @@ var bg : Texture2D = default_bg
 var history : Array = []
 var undo_index = 0
 
+func _on_canvas_viewport_mouse_entered() -> void:
+	drawable = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+func _on_canvas_viewport_mouse_exited() -> void:
+	drawable = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
 func update_buttons():
 	%undo.disabled = (undo_index == 0)
 	%redo.disabled = (undo_index == history.size()-1)
