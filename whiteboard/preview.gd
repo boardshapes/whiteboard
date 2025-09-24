@@ -37,7 +37,7 @@ func _on_red_color_2_pressed() -> void:
 	color = Color.RED
 	
 
-func _on_pen_button_pressed() -> void:
+func _on_pen_pressed() -> void:
 	mode ='pen'
 	
 func _on_rect_button_pressed() -> void:

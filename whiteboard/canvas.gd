@@ -10,7 +10,7 @@ var last_pos: Vector2
 var start_pos: Vector2
 var drawable: bool = true
 var erasing: bool = false
-var rectangle_mode: bool = false
+var mode = 'pen'
 var distance: Vector2
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
@@ -77,18 +77,18 @@ func _input(event: InputEvent) -> void:
 					has_last_pos = true
 					last_pos = event.position
 					start_pos = event.position
-					if not rectangle_mode:
+					if mode == 'pen':
 						strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
 					queue_redraw()
 				else:
 					flatten()
-					if rectangle_mode:
+					if mode == 'rect':
 						distance = distance_to(last_pos,start_pos)
 						strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			if has_last_pos:
-				if rectangle_mode:
+				if mode == 'rect':
 					distance = distance_to(last_pos,start_pos)
 				else:
 					strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
@@ -183,10 +183,11 @@ func _on_clear_pressed() -> void:
 	queue_redraw()
 
 func _on_rect_button_pressed() -> void:
-	if rectangle_mode:
-		rectangle_mode = false
-	else:
-		rectangle_mode = true
+	mode = 'rect'
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
+
+
+func _on_pen_pressed() -> void:
+	mode = 'pen'
