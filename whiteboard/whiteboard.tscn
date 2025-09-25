@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctcclfamwycud"]
+[gd_scene load_steps=17 format=3 uid="uid://ctcclfamwycud"]
 
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="1_q7r4r"]
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://canvas.gd" id="2_r75m2"]
@@ -9,8 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://dgfgbdugdf7k" path="res://buttons/redmarker.png" id="7_6tt26"]
 [ext_resource type="Texture2D" uid="uid://dsnb6br1wk27f" path="res://buttons/SprayBottle.png" id="8_t8au8"]
 [ext_resource type="Texture2D" uid="uid://b3lrysiq4exdl" path="res://buttons/RectangleButton.png" id="9_e5o2u"]
-[ext_resource type="Texture2D" uid="uid://dl7f8fr5u4m2u" path="res://buttons/eraser.png" id="10_d1f78"]
+[ext_resource type="Texture2D" uid="uid://jqen1p578ivb" path="res://buttons/whitemarker.png" id="11_0jsxr"]
 [ext_resource type="Texture2D" uid="uid://dqpnd35g46c1e" path="res://Toolbar.png" id="11_r75m2"]
+[ext_resource type="Texture2D" uid="uid://dvhcifwkwgq5n" path="res://buttons/Pencil.png" id="12_0tebn"]
+[ext_resource type="Texture2D" uid="uid://b5r2u8r5b3mlv" path="res://buttons/GlowPencil.png" id="13_w1w2f"]
+[ext_resource type="Texture2D" uid="uid://c4r81hnaakfe" path="res://buttons/GlowRectangle.png" id="14_0jsxr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -78,7 +81,7 @@ offset_bottom = 80.0
 [node name="ControlSize" type="Control" parent="ButtonsViewport/SubViewport/HBoxContainer"]
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="UIBar" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 z_index = -5
 position = Vector2(960, 40)
 texture = ExtResource("11_r75m2")
@@ -91,7 +94,7 @@ offset_bottom = 311.0
 scale = Vector2(0.3, 0.2)
 texture_normal = ExtResource("4_w1w2f")
 
-[node name="BlueColor2" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="BlueColor" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
 offset_left = 138.0
 offset_top = 9.0
@@ -100,7 +103,7 @@ offset_bottom = 320.0
 scale = Vector2(0.3, 0.2)
 texture_normal = ExtResource("5_0jsxr")
 
-[node name="GreenColor2" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="GreenColor" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
 offset_left = 268.0
 offset_top = 9.0
@@ -109,7 +112,7 @@ offset_bottom = 271.0
 scale = Vector2(0.3, 0.2)
 texture_normal = ExtResource("6_2y116")
 
-[node name="RedColor2" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="RedColor" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
 offset_left = 398.0
 offset_top = 9.0
@@ -129,23 +132,24 @@ texture_normal = ExtResource("8_t8au8")
 
 [node name="RectButton" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
+modulate = Color(0.6884535, 0.6884535, 0.6884535, 1)
 layout_mode = 0
-offset_left = 928.0
-offset_top = 2.9999983
-offset_right = 1314.0
+offset_left = 1039.0
+offset_top = 2.9999998
+offset_right = 1425.0
 offset_bottom = 186.0
 scale = Vector2(0.4, 0.4)
 texture_normal = ExtResource("9_e5o2u")
 
-[node name="WhiteColor2" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="WhiteColor" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
-offset_left = 531.0
-offset_top = 4.0
-offset_right = 1009.0
-offset_bottom = 354.0
+offset_left = 535.0
+offset_top = 9.0
+offset_right = 1013.0
+offset_bottom = 359.0
 scale = Vector2(0.3, 0.2)
 theme = SubResource("Theme_epypp")
-texture_normal = ExtResource("10_d1f78")
+texture_normal = ExtResource("11_0jsxr")
 
 [node name="save" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
@@ -164,16 +168,16 @@ offset_bottom = 68.0
 min_value = 5.0
 value = 50.0
 
-[node name="load" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="Load" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
 offset_left = 1750.0
 offset_top = 21.0
 offset_right = 1792.0
 offset_bottom = 52.0
-text = "load
+text = "Load
 "
 
-[node name="undo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="Undo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1458.0
@@ -182,7 +186,7 @@ offset_right = 1508.0
 offset_bottom = 52.0
 text = "Undo"
 
-[node name="redo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="Redo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1528.0
@@ -191,14 +195,42 @@ offset_right = 1578.0
 offset_bottom = 52.0
 text = "Redo"
 
-[node name="pen" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="Pen" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
+modulate = Color(0, 0, 0, 1)
+top_level = true
+light_mask = 2
+visibility_layer = 2
 layout_mode = 0
-offset_left = 1145.0
-offset_top = 21.0
-offset_right = 1195.0
-offset_bottom = 52.0
-text = "Pen"
+offset_left = 947.0
+offset_top = 3.9999998
+offset_right = 2190.0
+offset_bottom = 1128.0
+scale = Vector2(0.06, 0.06)
+texture_normal = ExtResource("12_0tebn")
+
+[node name="ClearDialog" type="ConfirmationDialog" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(270, 100)
+ok_button_text = "Yes"
+dialog_text = "Do you want to clear the canvas?"
+
+[node name="GlowPencil" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(985, 39.000004)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("13_w1w2f")
+
+[node name="GlowRectangle" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+position = Vector2(1116, 38)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("14_0jsxr")
 
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/preViewport/Preview" method="_on_canvas_viewport_mouse_entered"]
@@ -210,25 +242,25 @@ text = "Pen"
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="." method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="CanvasViewport/preViewport/Preview" method="_on_black_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor2" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor2" to="CanvasViewport/preViewport/Preview" method="_on_green_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor2" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/preViewport/Preview" method="_on_green_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor2" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor2" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BrushSize" to="CanvasViewport/drawingViewport/Canvas" method="_on_brush_size_value_changed"]
 [connection signal="value_changed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BrushSize" to="CanvasViewport/preViewport/Preview" method="_on_brush_size_value_changed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/load" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/undo" to="CanvasViewport/drawingViewport/Canvas" method="_on_undo_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/redo" to="CanvasViewport/drawingViewport/Canvas" method="_on_redo_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/pen" to="CanvasViewport/drawingViewport/Canvas" method="_on_pen_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/pen" to="CanvasViewport/preViewport/Preview" method="_on_pen_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Load" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Undo" to="CanvasViewport/drawingViewport/Canvas" method="_on_undo_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Redo" to="CanvasViewport/drawingViewport/Canvas" method="_on_redo_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Pen" to="CanvasViewport/drawingViewport/Canvas" method="_on_pen_pressed"]
+[connection signal="confirmed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/ClearDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_dialog_confirmed"]

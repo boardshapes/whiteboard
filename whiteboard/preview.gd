@@ -13,7 +13,6 @@ var mouse_pos : Vector2
 var draw_previews : bool = true
 var i = 0
 
-
 func _on_canvas_viewport_mouse_entered() -> void:
 	draw_previews = true
 	
@@ -35,13 +34,14 @@ func _on_green_color_pressed() -> void:
 
 func _on_red_color_2_pressed() -> void:
 	color = Color.RED
-	
 
 func _on_pen_pressed() -> void:
 	mode ='pen'
+	queue_redraw()
 	
 func _on_rect_button_pressed() -> void:
 	mode ='rect'
+	queue_redraw()
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
@@ -74,16 +74,16 @@ func _input(event: InputEvent) -> void:
 	queue_redraw()
 					
 func _draw() -> void:
-	if draw_previews:
-		var rect : Rect2
+	#if draw_previews:
 		if mode == 'rect':
+			var rect : Rect2
 			# make a crosshair
 			draw_circle(Vector2(mouse_pos.x+5,mouse_pos.y), 1, color, true)
 			draw_circle(Vector2(mouse_pos.x-5,mouse_pos.y), 1, color, true)
 			draw_circle(Vector2(mouse_pos.x,mouse_pos.y-5), 1, color, true)
 			draw_circle(Vector2(mouse_pos.x,mouse_pos.y+5), 1, color, true)
 			draw_circle(mouse_pos, 1, color, true)
-			rect = Rect2(start_pos,dimensions)	
+			rect = Rect2(start_pos,dimensions)
 			draw_rect(rect,color, filled, 1)
 		else:
 			draw_circle(mouse_pos, brush_size/4, color, filled, 2.0)
