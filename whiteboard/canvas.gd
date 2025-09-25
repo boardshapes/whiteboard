@@ -192,6 +192,7 @@ func _on_clear_dialog_confirmed() -> void:
 
 func _clear() -> void:
 	bg = default_bg # get rid of that disgusting drawing by blanking it
+	flatten()
 	queue_redraw()
 
 func _on_rect_button_pressed() -> void:
