@@ -46,6 +46,10 @@ func _on_rect_button_pressed() -> void:
 func _on_line_button_pressed() -> void:
 	mode ='line'
 	queue_redraw()
+	
+func _on_circle_pressed() -> void:
+	mode = 'circle'
+	queue_redraw()
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
@@ -107,6 +111,8 @@ func _draw() -> void:
 			draw_line(start_pos,second_pos,color,brush_size/2)
 			draw_circle(start_pos,brush_size/4,color,true)
 			draw_circle(second_pos,brush_size/4,color,true)
+		elif mode == 'circle':
+			draw_circle(start_pos,get_magnitude(start_pos,last_pos),color,false)
 			
 		if not mode == 'pen':
 			# make a crosshair

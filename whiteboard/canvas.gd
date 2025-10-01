@@ -12,6 +12,7 @@ var second_pos : Vector2 #for the line specifically
 var drawable: bool = true
 var erasing: bool = false
 var shift : bool = false
+var filled : bool = false
 var mode = 'pen'
 var distance: Vector2
 var mouse_pos: Vector2
@@ -87,7 +88,9 @@ func _input(event: InputEvent) -> void:
 						distance = distance_to(last_pos,start_pos)
 						strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
 					elif mode == 'line':
-						strokes.append({"type":'rect', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
+						strokes.append({"type":'line', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
+					elif mode == 'circle':
+						strokes.append({"type":'circle', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			if has_last_pos:
@@ -114,15 +117,17 @@ func _draw() -> void:
 	
 	draw_texture(bg,pos)
 	
-	for i in range(strokes.size()-1):
+	for i in range(strokes.size()-1): #leaves one
 		curr = strokes[i]
 		next = strokes[i+1]
 		if mode == 'pen': # separate draw functions
 			draw_line(curr.pos,next.pos,curr.color,curr.size/2)
 			draw_circle(curr.pos,curr.size/4,curr.color)
-	if strokes.size()>0:
+	if strokes.size()>0: #grab the only/last element (last point in stroke, rectangles, lines, etc.)
 		curr = strokes[-1]
-		if mode == 'rect':
+		if mode == 'pen':
+			draw_circle(curr.pos,curr.size/4,curr.color)
+		elif mode == 'rect':
 			if shift:
 				var width = (last_pos.x-start_pos.x)
 				var height = (last_pos.y-start_pos.y)
@@ -131,21 +136,28 @@ func _draw() -> void:
 				rect = Rect2(start_pos,size) 
 			else:
 				rect = Rect2(curr.pos,distance)
-			draw_rect(rect,curr.color)
+			if filled or abs(distance.x)<brush_size or abs(distance.y)<brush_size:
+				draw_rect(rect, curr.color, true, brush_size)
+			else:
+				rect = rect.abs()				# we need it to be pos in all dimensions
+				rect = rect.grow(-brush_size/4) # this gives necessary offset for the size
+				draw_rect(rect, curr.color, false, brush_size/2)
 		elif mode == 'line':
 			if shift:
 				var mag = get_magnitude(start_pos,last_pos)
 				var theta = start_pos.angle_to_point(last_pos)
 				theta = snapped(theta,PI/12)
 				second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
-				print(theta)
 			else:
 				second_pos = last_pos
 			draw_line(start_pos,second_pos,color,brush_size/2)
 			draw_circle(start_pos,brush_size/4,color,true)
 			draw_circle(second_pos,brush_size/4,color,true)
-		else:
-			draw_circle(curr.pos,curr.size/4,curr.color)
+		elif mode == 'circle':
+			if filled:
+				draw_circle(curr.pos,get_magnitude(start_pos,last_pos),curr.color,true)
+			else:
+				draw_circle(curr.pos,get_magnitude(start_pos,last_pos)-brush_size/4, curr.color,false,brush_size/2)
 	
 	if not has_last_pos:
 		strokes.clear()
@@ -243,3 +255,9 @@ func _on_pen_pressed() -> void:
 	
 func _on_line_button_pressed() -> void:
 	mode = 'line'
+
+func _on_circle_pressed() -> void:
+	mode = 'circle'
+
+func _on_filled_pressed() -> void:
+	filled = not filled

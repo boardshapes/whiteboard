@@ -240,6 +240,24 @@ offset_right = 1249.0
 offset_bottom = 55.0
 text = "Line"
 
+[node name="filled" type="CheckButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+layout_mode = 0
+offset_left = 1296.0
+offset_top = 24.0
+offset_right = 1386.0
+offset_bottom = 55.0
+text = "Filled"
+
+[node name="Circle" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1458.0
+offset_top = 21.0
+offset_right = 1508.0
+offset_bottom = 52.0
+text = "Circle
+this is for circle circle"
+
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/preViewport/Preview" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_exited"]
@@ -275,3 +293,6 @@ text = "Line"
 [connection signal="confirmed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/ClearDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_dialog_confirmed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/drawingViewport/Canvas" method="_on_line_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/preViewport/Preview" method="_on_line_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/filled" to="CanvasViewport/drawingViewport/Canvas" method="_on_filled_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Circle" to="CanvasViewport/drawingViewport/Canvas" method="_on_circle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Circle" to="CanvasViewport/preViewport/Preview" method="_on_circle_pressed"]
