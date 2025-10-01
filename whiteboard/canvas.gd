@@ -8,8 +8,10 @@ var strokes: Array = []
 var has_last_pos: bool = false
 var last_pos: Vector2
 var start_pos: Vector2
+var second_pos : Vector2 #for the line specifically
 var drawable: bool = true
 var erasing: bool = false
+var shift : bool = false
 var mode = 'pen'
 var distance: Vector2
 var mouse_pos: Vector2
@@ -59,6 +61,9 @@ func flatten() -> void:
 
 func distance_to(v1,v2):
 	return Vector2(v1.x-v2.x,v1.y-v2.y)
+	
+func get_magnitude(p1,p2):	
+	return ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**.5
 
 func _input(event: InputEvent) -> void:	
 	if event is InputEventKey and event.pressed:
@@ -81,18 +86,24 @@ func _input(event: InputEvent) -> void:
 					if mode == 'rect':
 						distance = distance_to(last_pos,start_pos)
 						strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
+					elif mode == 'line':
+						strokes.append({"type":'rect', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			if has_last_pos:
 				if mode == 'rect':
 					distance = distance_to(last_pos,start_pos)
-				else:
+				elif mode == 'pen':
 					strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
 				last_pos = event.position
 				
 			has_last_pos = true
 			queue_redraw()
-			
+	if event is InputEventKey:
+		if event.keycode == KEY_SHIFT and event.pressed:
+			shift = true
+		else:
+			shift = false
 	queue_redraw() 
 
 func _draw() -> void:
@@ -106,14 +117,33 @@ func _draw() -> void:
 	for i in range(strokes.size()-1):
 		curr = strokes[i]
 		next = strokes[i+1]
-		if not curr.type == 'rect': # separate draw functions
+		if mode == 'pen': # separate draw functions
 			draw_line(curr.pos,next.pos,curr.color,curr.size/2)
 			draw_circle(curr.pos,curr.size/4,curr.color)
 	if strokes.size()>0:
 		curr = strokes[-1]
-		if curr.type == 'rect':
-			rect = Rect2(curr.pos,distance)
+		if mode == 'rect':
+			if shift:
+				var width = (last_pos.x-start_pos.x)
+				var height = (last_pos.y-start_pos.y)
+				var length = abs(width if abs(width) < abs(height) else height)
+				var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
+				rect = Rect2(start_pos,size) 
+			else:
+				rect = Rect2(curr.pos,distance)
 			draw_rect(rect,curr.color)
+		elif mode == 'line':
+			if shift:
+				var mag = get_magnitude(start_pos,last_pos)
+				var theta = start_pos.angle_to_point(last_pos)
+				theta = snapped(theta,PI/12)
+				second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
+				print(theta)
+			else:
+				second_pos = last_pos
+			draw_line(start_pos,second_pos,color,brush_size/2)
+			draw_circle(start_pos,brush_size/4,color,true)
+			draw_circle(second_pos,brush_size/4,color,true)
 		else:
 			draw_circle(curr.pos,curr.size/4,curr.color)
 	
@@ -185,7 +215,10 @@ func _on_red_color_pressed() -> void:
 	%RectButton.modulate = Color.RED
 	 
 func _on_clear_button_pressed() -> void:
-	%ClearDialog.popup_centered()
+	if shift:
+		_clear()
+	else:
+		%ClearDialog.popup_centered()
 
 func _on_clear_dialog_confirmed() -> void:
 	_clear()
@@ -207,3 +240,6 @@ func _on_pen_pressed() -> void:
 	mode = 'pen'
 	%GlowPencil.visible = true
 	%GlowRectangle.visible = false
+	
+func _on_line_button_pressed() -> void:
+	mode = 'line'

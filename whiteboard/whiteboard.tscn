@@ -232,6 +232,14 @@ position = Vector2(1116, 38)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("14_0jsxr")
 
+[node name="Line" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+layout_mode = 0
+offset_left = 1208.0
+offset_top = 24.0
+offset_right = 1249.0
+offset_bottom = 55.0
+text = "Line"
+
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/preViewport/Preview" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_exited"]
@@ -242,17 +250,17 @@ texture = ExtResource("14_0jsxr")
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="." method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_black_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlackColor" to="CanvasViewport/preViewport/Preview" method="_on_black_color_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_blue_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/BlueColor" to="CanvasViewport/preViewport/Preview" method="_on_blue_color_2_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_2_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/GreenColor" to="CanvasViewport/preViewport/Preview" method="_on_green_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_button_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
@@ -265,3 +273,5 @@ texture = ExtResource("14_0jsxr")
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Pen" to="CanvasViewport/drawingViewport/Canvas" method="_on_pen_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Pen" to="CanvasViewport/preViewport/Preview" method="_on_pen_pressed"]
 [connection signal="confirmed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/ClearDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_dialog_confirmed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/drawingViewport/Canvas" method="_on_line_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/preViewport/Preview" method="_on_line_button_pressed"]
