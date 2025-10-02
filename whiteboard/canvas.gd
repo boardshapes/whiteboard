@@ -205,26 +205,33 @@ func _on_black_color_pressed() -> void:
 	color = Color.BLACK
 	%Pen.modulate = Color.BLACK
 	%RectButton.modulate = Color.GRAY
+	%Line.modulate = Color.GRAY
+
 
 func _on_white_color_pressed() -> void:
 	color = Color.WHITE
 	%Pen.modulate = Color.WHITE
 	%RectButton.modulate = Color.WHITE
+	%Line.modulate = Color.WHITE
+
 
 func _on_blue_color_pressed() -> void:
 	color = Color.BLUE
 	%Pen.modulate = Color.BLUE
 	%RectButton.modulate = Color.BLUE
+	%Line.modulate = Color.BLUE
 
 func _on_green_color_pressed() -> void:
 	color = Color.GREEN
 	%Pen.modulate = Color.GREEN
 	%RectButton.modulate = Color.GREEN
+	%Line.modulate = Color.GREEN
 
 func _on_red_color_pressed() -> void:
 	color = Color.RED
 	%Pen.modulate = Color.RED
 	%RectButton.modulate = Color.RED
+	%Line.modulate = Color.RED
 	 
 func _on_clear_button_pressed() -> void:
 	if shift:
@@ -244,6 +251,7 @@ func _on_rect_button_pressed() -> void:
 	mode = 'rect'
 	%GlowPencil.visible = false
 	%GlowRectangle.visible = true
+	%GlowLine.visible =  false
 
 func _on_brush_size_value_changed(value: float) -> void:
 	brush_size = value
@@ -252,9 +260,14 @@ func _on_pen_pressed() -> void:
 	mode = 'pen'
 	%GlowPencil.visible = true
 	%GlowRectangle.visible = false
+	%GlowLine.visible =  false
 	
 func _on_line_button_pressed() -> void:
 	mode = 'line'
+	%GlowLine.visible =  true
+	%GlowPencil.visible = false
+	%GlowRectangle.visible = false
+	
 
 func _on_circle_pressed() -> void:
 	mode = 'circle'
