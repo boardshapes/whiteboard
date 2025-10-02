@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ctcclfamwycud"]
+[gd_scene load_steps=21 format=3 uid="uid://ctcclfamwycud"]
 
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="1_q7r4r"]
 [ext_resource type="Script" uid="uid://c7ekfkflpvt1g" path="res://canvas.gd" id="2_r75m2"]
@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://c4r81hnaakfe" path="res://buttons/GlowRectangle.png" id="14_0jsxr"]
 [ext_resource type="Texture2D" uid="uid://u65w7uvseb6f" path="res://buttons/linetool.png" id="15_2y116"]
 [ext_resource type="Texture2D" uid="uid://cgowk6xwncsci" path="res://buttons/glowline.png" id="16_6tt26"]
+[ext_resource type="Texture2D" uid="uid://cctcquhgnct00" path="res://buttons/circletool.png" id="17_t8au8"]
+[ext_resource type="Texture2D" uid="uid://bsbxvfm78x5b1" path="res://buttons/glowcircle.png" id="18_e5o2u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -136,9 +138,9 @@ texture_normal = ExtResource("8_t8au8")
 unique_name_in_owner = true
 modulate = Color(0.6884535, 0.6884535, 0.6884535, 1)
 layout_mode = 0
-offset_left = 1039.0
-offset_top = 2.9999998
-offset_right = 1425.0
+offset_left = 1024.0
+offset_top = 3.0
+offset_right = 1410.0
 offset_bottom = 186.0
 scale = Vector2(0.4, 0.4)
 texture_normal = ExtResource("9_e5o2u")
@@ -182,18 +184,18 @@ text = "Load
 [node name="Undo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1458.0
-offset_top = 21.0
-offset_right = 1508.0
-offset_bottom = 52.0
+offset_left = 1534.0
+offset_top = 22.0
+offset_right = 1584.0
+offset_bottom = 53.0
 text = "Undo"
 
 [node name="Redo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1528.0
+offset_left = 1610.0
 offset_top = 21.0
-offset_right = 1578.0
+offset_right = 1660.0
 offset_bottom = 52.0
 text = "Redo"
 
@@ -204,9 +206,9 @@ top_level = true
 light_mask = 2
 visibility_layer = 2
 layout_mode = 0
-offset_left = 947.0
-offset_top = 3.9999998
-offset_right = 2190.0
+offset_left = 932.0
+offset_top = 4.0
+offset_right = 2175.0
 offset_bottom = 1128.0
 scale = Vector2(0.06, 0.06)
 texture_normal = ExtResource("12_0tebn")
@@ -222,7 +224,7 @@ dialog_text = "Do you want to clear the canvas?"
 [node name="GlowPencil" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 show_behind_parent = true
-position = Vector2(985, 39.000004)
+position = Vector2(970, 39)
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("13_w1w2f")
 
@@ -230,7 +232,7 @@ texture = ExtResource("13_w1w2f")
 unique_name_in_owner = true
 visible = false
 show_behind_parent = true
-position = Vector2(1116, 38)
+position = Vector2(1101, 38)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("14_0jsxr")
 
@@ -238,9 +240,9 @@ texture = ExtResource("14_0jsxr")
 unique_name_in_owner = true
 modulate = Color(0.6901961, 0.6901961, 0.6901961, 1)
 layout_mode = 0
-offset_left = 1203.0
+offset_left = 1188.0
 offset_top = 8.0
-offset_right = 1646.0
+offset_right = 1631.0
 offset_bottom = 324.0
 scale = Vector2(0.2, 0.2)
 texture_normal = ExtResource("15_2y116")
@@ -249,27 +251,36 @@ texture_normal = ExtResource("15_2y116")
 unique_name_in_owner = true
 visible = false
 show_behind_parent = true
-position = Vector2(1247, 39)
+position = Vector2(1232, 39)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("16_6tt26")
 
 [node name="filled" type="CheckButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
-offset_left = 1296.0
-offset_top = 24.0
-offset_right = 1386.0
-offset_bottom = 55.0
+offset_left = 1441.0
+offset_top = 25.0
+offset_right = 1531.0
+offset_bottom = 56.0
 text = "Filled"
 
-[node name="Circle" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+[node name="Circle" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
+modulate = Color(0.6901961, 0.6901961, 0.6901961, 1)
 layout_mode = 0
-offset_left = 1458.0
-offset_top = 21.0
-offset_right = 1508.0
-offset_bottom = 52.0
-text = "Circle
-this is for circle circle"
+offset_left = 1301.0
+offset_top = 7.0
+offset_right = 1795.0
+offset_bottom = 501.0
+scale = Vector2(0.13, 0.13)
+texture_normal = ExtResource("17_t8au8")
+
+[node name="GlowCircle" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+position = Vector2(1334, 39)
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("18_e5o2u")
 
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/preViewport/Preview" method="_on_canvas_viewport_mouse_entered"]
