@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cupc3eg2b6ugj"
-path="res://.godot/imported/blackmarker.png-af40443c9d8e80536a746ae1519821cc.ctex"
+uid="uid://c4r81hnaakfe"
+path="res://.godot/imported/GlowRectangle.png-454484caa2bd2cc97062aa323439d25a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buttons/blackmarker.png"
-dest_files=["res://.godot/imported/blackmarker.png-af40443c9d8e80536a746ae1519821cc.ctex"]
+source_file="res://buttons/GlowRectangle.png"
+dest_files=["res://.godot/imported/GlowRectangle.png-454484caa2bd2cc97062aa323439d25a.ctex"]
 
 [params]
 

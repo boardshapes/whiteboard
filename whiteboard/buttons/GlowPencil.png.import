@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cupc3eg2b6ugj"
-path="res://.godot/imported/blackmarker.png-af40443c9d8e80536a746ae1519821cc.ctex"
+uid="uid://b5r2u8r5b3mlv"
+path="res://.godot/imported/GlowPencil.png-e505602a7c1cfd2253c50e29caf1fbba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buttons/blackmarker.png"
-dest_files=["res://.godot/imported/blackmarker.png-af40443c9d8e80536a746ae1519821cc.ctex"]
+source_file="res://buttons/GlowPencil.png"
+dest_files=["res://.godot/imported/GlowPencil.png-e505602a7c1cfd2253c50e29caf1fbba.ctex"]
 
 [params]
 
