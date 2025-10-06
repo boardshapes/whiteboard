@@ -8,13 +8,13 @@ var strokes: Array = []
 var has_last_pos: bool = false
 var last_pos: Vector2
 var start_pos: Vector2
-var drawable: bool = true
 var erasing: bool = false
+var dialog_open : bool = false
 var mode = 'pen'
 var distance: Vector2
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
-var default_bg : Texture2D = load("res://blank.jpeg")
+var default_bg : Texture2D = null
 var bg : Texture2D = default_bg
 var history : Array = []
 var undo_index = 0
@@ -22,11 +22,11 @@ var pencil_texture = preload("res://buttons/Pencil.png")
 var glowpencil_texture = preload("res://buttons/GlowPencil.png")
 
 func _on_canvas_viewport_mouse_entered() -> void:
-	drawable = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	if not dialog_open:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
 
 func _on_canvas_viewport_mouse_exited() -> void:
-	drawable = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func update_buttons():
@@ -66,33 +66,33 @@ func _input(event: InputEvent) -> void:
 			_on_undo_pressed()
 		if event.keycode == KEY_Y and event.ctrl_pressed:
 			_on_redo_pressed()
-	if drawable:
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT: 
-				if event.pressed:
-					has_last_pos = true
-					last_pos = event.position
-					start_pos = event.position
-					if mode == 'pen':
-						strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
-					queue_redraw()
-				else:
-					flatten()
-					if mode == 'rect':
-						distance = distance_to(last_pos,start_pos)
-						strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
-					has_last_pos = false
-		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
-			if has_last_pos:
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT: 
+			if event.pressed:
+				has_last_pos = true
+				last_pos = event.position
+				start_pos = event.position
+				if mode == 'pen':
+					strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
+				queue_redraw()
+			else:
+				flatten()
 				if mode == 'rect':
 					distance = distance_to(last_pos,start_pos)
-				else:
-					strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
-				last_pos = event.position
-				
-			has_last_pos = true
-			queue_redraw()
+					strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
+				has_last_pos = false
+	elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
+		if has_last_pos:
+			if mode == 'rect':
+				distance = distance_to(last_pos,start_pos)
+			else:
+				strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
+			last_pos = event.position
 			
+		has_last_pos = true
+		queue_redraw()
+		
 	queue_redraw() 
 
 func _draw() -> void:
@@ -126,11 +126,14 @@ func _draw() -> void:
 
 func _on_load_pressed() -> void: #bring up dialog box
 	pick_image_file_dialog.show()
+	dialog_open = true
 
 func _on_save_pressed() -> void:
 	pick_save_location_dialog.show()
+	dialog_open = true
 	
 func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up image
+	dialog_open = false
 	var img = Image.load_from_file(path)
 	if img == null:
 		return
@@ -138,6 +141,7 @@ func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up im
 	queue_redraw()
 	
 func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save that image
+	dialog_open = false
 	if path[-2] == 'n': # .png has n at -2
 		get_viewport().get_texture().get_image().save_png(path)		
 	else:
@@ -186,9 +190,11 @@ func _on_red_color_pressed() -> void:
 	 
 func _on_clear_button_pressed() -> void:
 	%ClearDialog.popup_centered()
+	dialog_open = true
 
 func _on_clear_dialog_confirmed() -> void:
 	_clear()
+	dialog_open = false
 
 func _clear() -> void:
 	bg = default_bg # get rid of that disgusting drawing by blanking it
