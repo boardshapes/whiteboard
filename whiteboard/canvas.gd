@@ -14,7 +14,7 @@ var mode = 'pen'
 var distance: Vector2
 var mouse_pos: Vector2
 var texture : Texture2D = load("res://circle.png")
-var default_bg : Texture2D = null
+var default_bg : Texture2D = load("res://blank.jpeg")
 var bg : Texture2D = default_bg
 var history : Array = []
 var undo_index = 0
