@@ -6,16 +6,18 @@ var color: Color = Color.BLACK
 var brush_size: float = 50.0
 var strokes: Array = []
 var has_last_pos: bool = false
-var last_pos: Vector2
-var start_pos: Vector2
-var second_pos : Vector2 #for the line specifically
+var default_pos: Vector2 = Vector2(-1000,-1000)
+var last_pos: Vector2 = default_pos
+var start_pos: Vector2 = default_pos
+var second_pos : Vector2 = default_pos #for the line specifically
+var center #for the circle
 var drawable: bool = true
 var erasing: bool = false
 var shift : bool = false
 var filled : bool = false
 var mode = 'pen'
-var distance: Vector2
-var mouse_pos: Vector2
+var dimensions: Vector2 = default_pos
+var mouse_pos: Vector2 = default_pos
 var texture : Texture2D = load("res://circle.png")
 var default_bg : Texture2D = load("res://blank.jpeg")
 var bg : Texture2D = default_bg
@@ -23,6 +25,8 @@ var history : Array = []
 var undo_index = 0
 var pencil_texture = preload("res://buttons/Pencil.png")
 var glowpencil_texture = preload("res://buttons/GlowPencil.png")
+
+signal canvas_drawn
 
 func _on_canvas_viewport_mouse_entered() -> void:
 	drawable = true
@@ -43,7 +47,13 @@ func _ready():
 	pick_save_location_dialog.access = FileDialog.ACCESS_FILESYSTEM	
 	pick_save_location_dialog.filters = ["*.png,*.jpeg,*.jpg ; Image Files"]
 	history.append(default_bg) #init the undo history
+	$"../../preViewport/Preview".drawing.connect(coords)
 	update_buttons()
+
+func coords(last,start,stroke):
+	last_pos = last
+	start_pos = start
+	strokes = stroke.duplicate()
 
 func flatten() -> void:
 	await RenderingServer.frame_post_draw
@@ -60,11 +70,14 @@ func flatten() -> void:
 		update_buttons()
 	queue_redraw()
 
-func distance_to(v1,v2):
+func dimensions_to(v1,v2):
 	return Vector2(v1.x-v2.x,v1.y-v2.y)
 	
 func get_magnitude(p1,p2):	
 	return ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**.5
+
+func get_dimensions(p1,p2):
+	return Vector2((p2.x-p1.x),(p2.y-p1.y))
 
 func _input(event: InputEvent) -> void:	
 	if event is InputEventKey and event.pressed:
@@ -77,28 +90,21 @@ func _input(event: InputEvent) -> void:
 			if event.button_index == MOUSE_BUTTON_LEFT: 
 				if event.pressed:
 					has_last_pos = true
-					last_pos = event.position
-					start_pos = event.position
-					if mode == 'pen':
-						strokes.append({"type":'brush',"pos": last_pos, "size": brush_size, "color": color})
+					#last_pos = event.position
+					#start_pos = event.position
+					#if mode == 'pen':
+						#strokes.append(last_pos)
 					queue_redraw()
 				else:
 					flatten()
-					if mode == 'rect':
-						distance = distance_to(last_pos,start_pos)
-						strokes.append({"type":'rect', "pos": start_pos, "size": distance, "color": color})
-					elif mode == 'line':
-						strokes.append({"type":'line', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
-					elif mode == 'circle':
-						strokes.append({"type":'circle', "pos": start_pos, "size": get_magnitude(start_pos,last_pos), "color": color})
 					has_last_pos = false
 		elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			if has_last_pos:
 				if mode == 'rect':
-					distance = distance_to(last_pos,start_pos)
-				elif mode == 'pen':
-					strokes.append({"type":'brush', "pos": last_pos, "size": brush_size, "color": color})
-				last_pos = event.position
+					dimensions = dimensions_to(last_pos,start_pos)
+				#elif mode == 'pen':
+					#strokes.append(last_pos)
+				#last_pos = event.position
 				
 			has_last_pos = true
 			queue_redraw()
@@ -110,38 +116,40 @@ func _input(event: InputEvent) -> void:
 	queue_redraw() 
 
 func _draw() -> void:
+	
 	var rect
 	var pos = Vector2(0,0)
 	var next
 	var curr
 	
 	draw_texture(bg,pos)
-	
-	for i in range(strokes.size()-1): #leaves one
-		curr = strokes[i]
-		next = strokes[i+1]
-		if mode == 'pen': # separate draw functions
-			draw_line(curr.pos,next.pos,curr.color,curr.size/2)
-			draw_circle(curr.pos,curr.size/4,curr.color)
-	if strokes.size()>0: #grab the only/last element (last point in stroke, rectangles, lines, etc.)
-		curr = strokes[-1]
+
+	if not has_last_pos or strokes.size()>150:
 		if mode == 'pen':
-			draw_circle(curr.pos,curr.size/4,curr.color)
+			if strokes.size()>0: #grab the only/last element (last point in stroke, rectangles, lines, etc.)
+				for i in range(strokes.size()-1): #leaves one
+					curr = strokes[i]
+					next = strokes[i+1]
+					if mode == 'pen': # separate draw functions
+						draw_line(curr,next,color,brush_size/2)
+						draw_circle(curr,brush_size/4,color)
+				draw_circle(strokes[-1],brush_size/4,color)
 		elif mode == 'rect':
-			if shift:
-				var width = (last_pos.x-start_pos.x)
-				var height = (last_pos.y-start_pos.y)
-				var length = abs(width if abs(width) < abs(height) else height)
-				var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
-				rect = Rect2(start_pos,size) 
-			else:
-				rect = Rect2(curr.pos,distance)
-			if filled or abs(distance.x)<brush_size or abs(distance.y)<brush_size:
-				draw_rect(rect, curr.color, true, brush_size)
-			else:
-				rect = rect.abs()				# we need it to be pos in all dimensions
-				rect = rect.grow(-brush_size/4) # this gives necessary offset for the size
-				draw_rect(rect, curr.color, false, brush_size/2)
+				if shift:
+					var width = (last_pos.x-start_pos.x)
+					var height = (last_pos.y-start_pos.y)
+					var length = abs(width if abs(width) < abs(height) else height)
+					var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
+					rect = Rect2(start_pos,size) 
+				else:
+					dimensions = get_dimensions(start_pos,last_pos)
+					rect = Rect2(start_pos,dimensions)
+				if filled or abs(dimensions.x)<brush_size or abs(dimensions.y)<brush_size:
+					draw_rect(rect, color, true, brush_size)
+				else:
+					rect = rect.abs()				# we need it to be pos in all dimensions
+					rect = rect.grow(-brush_size/4) # this gives necessary offset for the size
+					draw_rect(rect, color, false, brush_size/2)
 		elif mode == 'line':
 			if shift:
 				var mag = get_magnitude(start_pos,last_pos)
@@ -154,17 +162,24 @@ func _draw() -> void:
 			draw_circle(start_pos,brush_size/4,color,true)
 			draw_circle(second_pos,brush_size/4,color,true)
 		elif mode == 'circle':
-			if filled:
-				draw_circle(curr.pos,get_magnitude(start_pos,last_pos),curr.color,true)
+			if shift:
+				center = start_pos
 			else:
-				draw_circle(curr.pos,get_magnitude(start_pos,last_pos)-brush_size/4, curr.color,false,brush_size/2)
-	
-	if not has_last_pos:
+				center = last_pos
+			if filled:
+				draw_circle(center,get_magnitude(start_pos,last_pos),color,true)
+			else:
+				draw_circle(center,get_magnitude(start_pos,last_pos)-brush_size/4, color,false,brush_size/2)
+		
+		#clear after drawing
+		if strokes.size()>150:
+			flatten()
 		strokes.clear()
-	elif strokes.size()>150: # eliminate lag by periodically flattening so you cant melt your gpu anymore
-		flatten()
-		strokes.clear()
-		strokes.append(next)
+		canvas_drawn.emit()
+		last_pos = default_pos
+		start_pos = default_pos
+		dimensions = default_pos
+
 
 func _on_load_pressed() -> void: #bring up dialog box
 	pick_image_file_dialog.show()
