@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ctcclfamwycud"]
+[gd_scene load_steps=22 format=3 uid="uid://ctcclfamwycud"]
 
 [ext_resource type="Texture2D" uid="uid://bkdws1jcjl64v" path="res://circle.png" id="1_q7r4r"]
 [ext_resource type="Texture2D" uid="uid://diyix5wa3t5ti" path="res://whiteboard.png" id="2_2y116"]
@@ -15,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://dvhcifwkwgq5n" path="res://buttons/Pencil.png" id="12_0tebn"]
 [ext_resource type="Texture2D" uid="uid://b5r2u8r5b3mlv" path="res://buttons/GlowPencil.png" id="13_w1w2f"]
 [ext_resource type="Texture2D" uid="uid://c4r81hnaakfe" path="res://buttons/GlowRectangle.png" id="14_0jsxr"]
+[ext_resource type="Texture2D" uid="uid://u65w7uvseb6f" path="res://buttons/linetool.png" id="15_2y116"]
+[ext_resource type="Texture2D" uid="uid://cgowk6xwncsci" path="res://buttons/glowline.png" id="16_6tt26"]
+[ext_resource type="Texture2D" uid="uid://cctcquhgnct00" path="res://buttons/circletool.png" id="17_t8au8"]
+[ext_resource type="Texture2D" uid="uid://bsbxvfm78x5b1" path="res://buttons/glowcircle.png" id="18_e5o2u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e48y"]
 bg_color = Color(1, 1, 1, 1)
@@ -93,17 +97,6 @@ offset_bottom = 1357.0
 scale = Vector2(0.3, 0.2)
 texture_normal = ExtResource("8_t8au8")
 
-[node name="RectButton" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
-unique_name_in_owner = true
-modulate = Color(0.6884535, 0.6884535, 0.6884535, 1)
-layout_mode = 0
-offset_left = 503.00006
-offset_top = 2.9999998
-offset_right = 889.00006
-offset_bottom = 186.0
-scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("9_e5o2u")
-
 [node name="WhiteColor" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 layout_mode = 0
 offset_left = 26.0
@@ -143,34 +136,20 @@ text = "Load
 [node name="Undo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1458.0
-offset_top = 21.0
-offset_right = 1508.0
-offset_bottom = 52.0
+offset_left = 1534.0
+offset_top = 22.0
+offset_right = 1584.0
+offset_bottom = 53.0
 text = "Undo"
 
 [node name="Redo" type="Button" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1528.0
+offset_left = 1610.0
 offset_top = 21.0
-offset_right = 1578.0
+offset_right = 1660.0
 offset_bottom = 52.0
 text = "Redo"
-
-[node name="Pen" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
-unique_name_in_owner = true
-modulate = Color(0, 0, 0, 1)
-top_level = true
-light_mask = 2
-visibility_layer = 2
-layout_mode = 0
-offset_left = 411.00006
-offset_top = 3.9999998
-offset_right = 1654.0
-offset_bottom = 1128.0
-scale = Vector2(0.06, 0.06)
-texture_normal = ExtResource("12_0tebn")
 
 [node name="ClearDialog" type="ConfirmationDialog" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
@@ -180,20 +159,91 @@ size = Vector2i(270, 100)
 ok_button_text = "Yes"
 dialog_text = "Do you want to clear the canvas?"
 
+[node name="Pen" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 1)
+top_level = true
+light_mask = 2
+visibility_layer = 2
+layout_mode = 0
+offset_left = 53.469997
+offset_top = 388.81
+offset_right = 1296.47
+offset_bottom = 1512.81
+scale = Vector2(0.06, 0.06)
+texture_normal = ExtResource("12_0tebn")
+
 [node name="GlowPencil" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 show_behind_parent = true
-position = Vector2(449.00006, 39.000004)
+position = Vector2(91.47, 423.81)
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("13_w1w2f")
+
+[node name="RectButton" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+modulate = Color(0.6884535, 0.6884535, 0.6884535, 1)
+layout_mode = 0
+offset_left = 31.0
+offset_top = 484.00003
+offset_right = 417.0
+offset_bottom = 667.00006
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("9_e5o2u")
 
 [node name="GlowRectangle" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
 unique_name_in_owner = true
 visible = false
 show_behind_parent = true
-position = Vector2(1116, 38)
-scale = Vector2(0.4, 0.4)
+position = Vector2(89.00018, 510)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("14_0jsxr")
+
+[node name="Line" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+modulate = Color(0.6901961, 0.6901961, 0.6901961, 1)
+layout_mode = 0
+offset_left = 43.000122
+offset_top = 542.99994
+offset_right = 486.00012
+offset_bottom = 859.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("15_2y116")
+
+[node name="GlowLine" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+position = Vector2(87.50001, 574.59985)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("16_6tt26")
+
+[node name="filled" type="CheckButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 26.0
+offset_right = 479.0
+offset_bottom = 57.0
+text = "Filled"
+
+[node name="Circle" type="TextureButton" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+modulate = Color(0.6901961, 0.6901961, 0.6901961, 1)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 642.0
+offset_right = 544.0
+offset_bottom = 1136.0
+scale = Vector2(0.13, 0.13)
+texture_normal = ExtResource("17_t8au8")
+
+[node name="GlowCircle" type="Sprite2D" parent="ButtonsViewport/SubViewport/HBoxContainer/ControlSize"]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+position = Vector2(82.49988, 674.59985)
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("18_e5o2u")
 
 [node name="CanvasViewport" type="SubViewportContainer" parent="."]
 offset_left = 204.0
@@ -237,6 +287,7 @@ size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Preview" type="Node2D" parent="CanvasViewport/preViewport"]
+z_as_relative = false
 script = ExtResource("3_0tebn")
 
 [node name="UIWhiteboard" type="Sprite2D" parent="CanvasViewport"]
@@ -257,9 +308,6 @@ texture = ExtResource("2_2y116")
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_red_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RedColor" to="CanvasViewport/preViewport/Preview" method="_on_red_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Clear" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_button_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
-[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/drawingViewport/Canvas" method="_on_white_color_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/WhiteColor" to="CanvasViewport/preViewport/Preview" method="_on_white_color_2_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/save" to="CanvasViewport/drawingViewport/Canvas" method="_on_save_pressed"]
@@ -268,9 +316,17 @@ texture = ExtResource("2_2y116")
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Load" to="CanvasViewport/drawingViewport/Canvas" method="_on_load_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Undo" to="CanvasViewport/drawingViewport/Canvas" method="_on_undo_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Redo" to="CanvasViewport/drawingViewport/Canvas" method="_on_redo_pressed"]
+[connection signal="confirmed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/ClearDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_dialog_confirmed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Pen" to="CanvasViewport/drawingViewport/Canvas" method="_on_pen_pressed"]
 [connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Pen" to="CanvasViewport/preViewport/Preview" method="_on_pen_pressed"]
-[connection signal="confirmed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/ClearDialog" to="CanvasViewport/drawingViewport/Canvas" method="_on_clear_dialog_confirmed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rectangle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/drawingViewport/Canvas" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/RectButton" to="CanvasViewport/preViewport/Preview" method="_on_rect_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/drawingViewport/Canvas" method="_on_line_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Line" to="CanvasViewport/preViewport/Preview" method="_on_line_button_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/filled" to="CanvasViewport/drawingViewport/Canvas" method="_on_filled_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Circle" to="CanvasViewport/drawingViewport/Canvas" method="_on_circle_pressed"]
+[connection signal="pressed" from="ButtonsViewport/SubViewport/HBoxContainer/ControlSize/Circle" to="CanvasViewport/preViewport/Preview" method="_on_circle_pressed"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_entered" from="CanvasViewport" to="CanvasViewport/preViewport/Preview" method="_on_canvas_viewport_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasViewport" to="CanvasViewport/drawingViewport/Canvas" method="_on_canvas_viewport_mouse_exited"]
