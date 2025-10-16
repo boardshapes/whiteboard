@@ -199,6 +199,7 @@ func _on_pick_image_file_dialog_file_selected(path: String) -> void: #load up im
 	if img == null:
 		return
 	bg = ImageTexture.create_from_image(img)
+	flatten()
 	queue_redraw()
 	
 func _on_pick_save_location_dialog_file_selected(path: String) -> void: # save that image
