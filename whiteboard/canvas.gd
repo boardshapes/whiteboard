@@ -116,65 +116,19 @@ func _input(event: InputEvent) -> void:
 	queue_redraw()
 func _draw() -> void:
 	
-	var rect
 	var pos = Vector2(0,0)
-	var next
-	var curr
 	
 	draw_texture(bg,pos)
 
 	if not has_last_pos or strokes.size()>150:
 		if mode == 'pen':
-			if strokes.size()>0: #grab the only/last element (last point in stroke, rectangles, lines, etc.)
-				for i in range(strokes.size()-1): #leaves one
-					curr = strokes[i]
-					next = strokes[i+1]
-					if mode == 'pen': # separate draw functions
-						draw_line(curr,next,color,brush_size/2)
-						draw_circle(curr,brush_size/4,color)
-				draw_circle(strokes[-1],brush_size/4,color)
+			draw_strokes()
 		elif mode == 'rect':
-				var fill_rect = filled 
-				
-				if shift: #square it
-					fill_rect = fill_rect or abs(dimensions.x)<brush_size and abs(dimensions.y)<brush_size
-					var width = (last_pos.x-start_pos.x)
-					var height = (last_pos.y-start_pos.y)
-					var length = abs(width if abs(width) > abs(height) else height)
-					var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
-					rect = Rect2(start_pos,size) 
-				else:
-					fill_rect = fill_rect or abs(dimensions.x)<brush_size or abs(dimensions.y)<brush_size
-					dimensions = get_dimensions(start_pos,last_pos)
-					rect = Rect2(start_pos,dimensions)
-					
-				if fill_rect:
-					draw_rect(rect, color, true, brush_size)
-				else:
-					rect = rect.abs()				# we need it to be pos in all dimensions
-					rect = rect.grow(-brush_size/4) # this gives necessary offset for the size
-					draw_rect(rect, color, false, brush_size/2)
-					
+			draw_rect_stroke()
 		elif mode == 'line':
-			if shift:
-				var mag = get_magnitude(start_pos,last_pos)
-				var theta = start_pos.angle_to_point(last_pos)
-				theta = snapped(theta,PI/12)
-				second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
-			else:
-				second_pos = last_pos
-			draw_line(start_pos,second_pos,color,brush_size/2)
-			draw_circle(start_pos,brush_size/4,color,true)
-			draw_circle(second_pos,brush_size/4,color,true)
+			draw_line_stroke()
 		elif mode == 'circle':
-			if shift:
-				center = start_pos
-			else:
-				center = last_pos
-			if filled:
-				draw_circle(center,get_magnitude(start_pos,last_pos),color,true)
-			else:
-				draw_circle(center,get_magnitude(start_pos,last_pos)-brush_size/4, color,false,brush_size/2)
+			draw_circle_stroke()
 		
 		#clear after drawing
 		if strokes.size()>150:
@@ -183,7 +137,63 @@ func _draw() -> void:
 		last_pos = default_pos
 		start_pos = default_pos
 		dimensions = default_pos
+		
+func draw_strokes():	
+	var next
+	var curr
+	if strokes.size()>0: #grab the only/last element (last point in stroke, rectangles, lines, etc.)
+		for i in range(strokes.size()-1): #leaves one
+			curr = strokes[i]
+			next = strokes[i+1]
+			if mode == 'pen': # separate draw functions
+				draw_line(curr,next,color,brush_size/2)
+				draw_circle(curr,brush_size/4,color)
+		draw_circle(strokes[-1],brush_size/4,color)
 
+func draw_rect_stroke():
+	var fill_rect = filled 
+	var rect
+	
+	if shift: #square it
+		fill_rect = fill_rect or abs(dimensions.x)<brush_size and abs(dimensions.y)<brush_size
+		var width = (last_pos.x-start_pos.x)
+		var height = (last_pos.y-start_pos.y)
+		var length = abs(width if abs(width) > abs(height) else height)
+		var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
+		rect = Rect2(start_pos,size) 
+	else:
+		fill_rect = fill_rect or abs(dimensions.x)<brush_size or abs(dimensions.y)<brush_size
+		dimensions = get_dimensions(start_pos,last_pos)
+		rect = Rect2(start_pos,dimensions)
+		
+	if fill_rect:
+		draw_rect(rect, color, true, brush_size)
+	else:
+		rect = rect.abs()				# we need it to be pos in all dimensions
+		rect = rect.grow(-brush_size/4) # this gives necessary offset for the size
+		draw_rect(rect, color, false, brush_size/2)
+
+func draw_line_stroke():
+	if shift:
+		var mag = get_magnitude(start_pos,last_pos)
+		var theta = start_pos.angle_to_point(last_pos)
+		theta = snapped(theta,PI/12)
+		second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
+	else:
+		second_pos = last_pos
+	draw_line(start_pos,second_pos,color,brush_size/2)
+	draw_circle(start_pos,brush_size/4,color,true)
+	draw_circle(second_pos,brush_size/4,color,true)
+
+func draw_circle_stroke():
+	if shift:
+		center = start_pos
+	else:
+		center = last_pos
+	if filled:
+		draw_circle(center,get_magnitude(start_pos,last_pos),color,true)
+	else:
+		draw_circle(center,get_magnitude(start_pos,last_pos)-brush_size/4, color,false,brush_size/2)
 
 func _on_load_pressed() -> void: #bring up dialog box
 	pick_image_file_dialog.show()
