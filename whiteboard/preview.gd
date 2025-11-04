@@ -14,7 +14,7 @@ var shift : bool = false
 var mouse_pos : Vector2 = default_pos
 var draw_previews : bool = true
 var i = 0
-var ithappened : bool = false
+var canvas_updated : bool = false
 
 signal drawing
 
@@ -64,7 +64,7 @@ func _ready() -> void:
 	
 func canvas_drawn(new_bg):
 	bg = new_bg
-	ithappened = true
+	canvas_updated = true
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -117,43 +117,13 @@ func _draw() -> void:
 		#draw_texture(bg,Vector2(0,0))
 		
 		if mode == 'pen':
-			var curr : Vector2
-			var next : Vector2
-			if strokes.size()>0:
-				for s in range(strokes.size()-1):
-					curr = strokes[s]
-					next = strokes[s+1]
-					draw_line(curr,next,color,brush_size/2)
-					draw_circle(curr,brush_size/4, color)
-			draw_circle(last_pos,brush_size/4,color)
+			draw_stroke_preview()
 		elif mode == 'rect':
-			var rect : Rect2
-			if shift:	#make it square
-				var width = (last_pos.x-start_pos.x)
-				var height = (last_pos.y-start_pos.y)
-				var length = abs(width if abs(width) > abs(height) else height)
-				var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
-				rect = Rect2(start_pos,size) 
-			else:
-				rect = Rect2(start_pos,get_dimensions(start_pos,last_pos))
-			draw_rect(rect,color, false, 1)
+			draw_rect_preview()
 		elif mode == 'line':
-			if shift:
-				var mag = get_magnitude(start_pos,last_pos)
-				var theta = start_pos.angle_to_point(last_pos)
-				theta = snapped(theta,PI/12)
-				second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
-				print(theta)
-			else:
-				second_pos = last_pos
-			draw_line(start_pos,second_pos,color,brush_size/2)
-			draw_circle(start_pos,brush_size/4,color,true)
-			draw_circle(second_pos,brush_size/4,color,true)
+			draw_line_preview()
 		elif mode == 'circle':
-			if shift:
-				draw_circle(start_pos,get_magnitude(start_pos,last_pos),color,false)
-			else:
-				draw_circle(last_pos,get_magnitude(start_pos,last_pos),color,false)
+			draw_cricle_preview()
 		
 		if draw_previews:
 			if mode == 'pen':
@@ -171,7 +141,7 @@ func _draw() -> void:
 				draw_circle(mouse_pos, 1, color, true)
 		
 		
-		if ithappened:
+		if canvas_updated:
 			if strokes.size()>150:
 				var temp = strokes[-1]
 				strokes.clear()
@@ -179,4 +149,46 @@ func _draw() -> void:
 			else:
 				strokes.clear()
 			has_last_pos = false
-			ithappened = false
+			canvas_updated = false
+
+func draw_stroke_preview():
+	var curr : Vector2
+	var next : Vector2
+	if strokes.size()>0:
+		for s in range(strokes.size()-1):
+			curr = strokes[s]
+			next = strokes[s+1]
+			draw_line(curr,next,color,brush_size/2)
+			draw_circle(curr,brush_size/4, color)
+	draw_circle(last_pos,brush_size/4,color)
+	
+func draw_rect_preview():
+	var rect : Rect2
+	if shift:	#make it square
+		var width = (last_pos.x-start_pos.x)
+		var height = (last_pos.y-start_pos.y)
+		var length = abs(width if abs(width) > abs(height) else height)
+		var size = Vector2(length*(width/abs(width)),length*(height/abs(height)))
+		rect = Rect2(start_pos,size) 
+	else:
+		rect = Rect2(start_pos,get_dimensions(start_pos,last_pos))
+	draw_rect(rect,color, false, 1)
+	
+func draw_line_preview():
+	if shift:
+		var mag = get_magnitude(start_pos,last_pos)
+		var theta = start_pos.angle_to_point(last_pos)
+		theta = snapped(theta,PI/12)
+		second_pos = Vector2(mag*cos(theta)+start_pos.x,mag*sin(theta)+start_pos.y)
+		print(theta)
+	else:
+		second_pos = last_pos
+	draw_line(start_pos,second_pos,color,brush_size/2)
+	draw_circle(start_pos,brush_size/4,color,true)
+	draw_circle(second_pos,brush_size/4,color,true)
+
+func draw_cricle_preview():
+	if shift:
+		draw_circle(start_pos,get_magnitude(start_pos,last_pos),color,false)
+	else:
+		draw_circle(last_pos,get_magnitude(start_pos,last_pos),color,false)

@@ -50,35 +50,6 @@ func _ready():
 	$"../../preViewport/Preview".drawing.connect(coords)
 	update_buttons()
 
-func coords(last,start,new_strokes):
-	last_pos = last
-	start_pos = start
-	strokes = new_strokes.duplicate() #.append_array(new_strokes)
-
-func flatten() -> void:
-	await RenderingServer.frame_post_draw
-	var img = get_viewport().get_texture().get_image()
-	bg = ImageTexture.create_from_image(img)
-	canvas_drawn.emit(bg)
-	while undo_index<history.size()-1: # if you draw after undo, clear the other stuff
-		history.pop_back()
-	history.append(bg) 
-	if not has_last_pos: #only save/update when youre done drawing
-		if history.size()>25: # limit to 25 elements for now
-			history.remove_at(0)
-		else:
-			undo_index += 1
-		update_buttons()
-	queue_redraw()	
-
-func dimensions_to(v1,v2):
-	return Vector2(v1.x-v2.x,v1.y-v2.y)
-	
-func get_magnitude(p1,p2):	
-	return ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**.5
-
-func get_dimensions(p1,p2):
-	return Vector2((p2.x-p1.x),(p2.y-p1.y))
 
 func _input(event: InputEvent) -> void:	
 	if event is InputEventKey and event.pressed:
@@ -114,6 +85,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			shift = false
 	queue_redraw()
+
 func _draw() -> void:
 	
 	var pos = Vector2(0,0)
@@ -137,7 +109,38 @@ func _draw() -> void:
 		last_pos = default_pos
 		start_pos = default_pos
 		dimensions = default_pos
-		
+
+
+func coords(last,start,new_strokes):
+	last_pos = last
+	start_pos = start
+	strokes = new_strokes.duplicate() #.append_array(new_strokes)
+
+func flatten() -> void:
+	await RenderingServer.frame_post_draw
+	var img = get_viewport().get_texture().get_image()
+	bg = ImageTexture.create_from_image(img)
+	canvas_drawn.emit(bg)
+	while undo_index<history.size()-1: # if you draw after undo, clear the other stuff
+		history.pop_back()
+	history.append(bg) 
+	if not has_last_pos: #only save/update when youre done drawing
+		if history.size()>25: # limit to 25 elements for now
+			history.remove_at(0)
+		else:
+			undo_index += 1
+		update_buttons()
+	queue_redraw()	
+
+func dimensions_to(v1,v2):
+	return Vector2(v1.x-v2.x,v1.y-v2.y)
+	
+func get_magnitude(p1,p2):	
+	return ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**.5
+
+func get_dimensions(p1,p2):
+	return Vector2((p2.x-p1.x),(p2.y-p1.y))
+
 func draw_strokes():	
 	var next
 	var curr
